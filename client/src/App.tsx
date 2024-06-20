@@ -11,6 +11,7 @@ import ResetPassword from './pages/auth/ResetPassword';
 import ErrorServer from './pages/error/ErrorServer';
 import Error404 from './pages/error/Error404';
 import ErrorInternal from './pages/error/ErrorInternal';
+import Footer from './pages/footer/Footer';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path='/*' element={<Error404 />} />
         </Routes>
       </div>
+      <div className="footer"><Footer /></div>
     </>
   );
 }

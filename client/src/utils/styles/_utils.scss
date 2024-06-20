@@ -13,3 +13,55 @@
     transform: rotate(360deg);
   }
 }
+
+.input_user_container {
+  width: 100%;
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  
+  .input_container {
+    height: 30px;
+    display: flex;
+    margin: 15px 0;
+    align-items: center;
+        
+    .input_user {
+      width: 400px;
+      height: 30px;
+      border: 1px solid $color_pal1_yellow2;
+      padding: 10px 5px 10px 30px;
+      border-radius: 15px;
+      color: $color_pal1_white;
+      background-color: $color_pal1_yellow1;
+      &::placeholder {
+        color: $color_pal1_yellow3;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    
+    .generate {
+      width: 50px;
+      height: 30px;
+      margin: 0 10px;
+      display: flex;
+      padding: 5px 10px;
+      border-radius: 10px;
+      align-items: center;
+      text-align: center;
+      box-shadow: 1px 1px 5px 1px $color_pal1_blue1;
+      background-color: $color_pal1_yellow2;
+      cursor: pointer;
+    }
+
+    .input_warning, .input_eye {
+      width: 30px;
+      height: 30px;
+      margin: 0 0 0 5px;
+      display: flex;
+    
+    }
+  }
+}

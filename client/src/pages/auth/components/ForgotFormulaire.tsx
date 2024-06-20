@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import InputUser from '../../../utils/InputUser';
+import InputUser from '../../../utils/components/InputUser';
 import ConfirmCode from './ConfirmCode';
 
 const ForgotFormulaire = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [email, setEmail] = useState('');
-  const [code, setCode] = useState('j');
+  const [message, setMessage] = useState('');
+  const [code, setCode] = useState('');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,25 +15,27 @@ const ForgotFormulaire = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <InputUser
-          id='email'
-          type='email'
-          placeholder='Adresse email'
-          setIsValid={setIsValidEmail}
-        />
-        <input
-          type='submit'
-          name='submit'
-          id='submit'
-          value='Recevoir un lien'
-        />
-      </form>
+      <div className='sign_formulaire'>
+        <div className='message'>{message}</div>
+        <form onSubmit={handleSubmit}>
+          <InputUser
+            id='email'
+            type='email'
+            placeholder='Adresse email'
+            setIsValid={setIsValidEmail}
+          />
+          <input
+            className='input_submit'
+            type='submit'
+            name='submit'
+            id='submit'
+            value='Recevoir un lien'
+          />
+        </form>
+      </div>
       {code && (
         <>
-          <div className='confirm_code_container'>
-            <ConfirmCode code={code} setCode={setCode} />
-          </div>
+          <ConfirmCode code={code} setCode={setCode} />
         </>
       )}
     </>

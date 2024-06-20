@@ -1,7 +1,7 @@
 import { IoClose } from 'react-icons/io5';
 import { appRedir } from '../../app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
-import InputCode from '../../../utils/InputCode';
+import InputCode from '../../../utils/components/InputCode';
 import { useRef } from 'react';
 
 const ConfirmCode = ({
@@ -28,48 +28,51 @@ const ConfirmCode = ({
 
   return (
     <>
-      <div
-        className='close'
-        onClick={() => {
-          setCode('');
-        }}
-      >
-        <IoClose size={24} />
-      </div>
-      <div className='title'>Veuillez taper le code reçu par email.</div>
-      <div className='number'>
+      <div className='confirm_code_container'>
+        <div className='close'>
+          <button
+            onClick={() => {
+              setCode('');
+            }}
+          >
+            <IoClose size={28} />
+          </button>
+        </div>
+        <div className='title'>Veuillez taper le code reçu par email.</div>
         <form onSubmit={handleSubmit}>
-          <InputCode
-            id={1}
-            currentRef={refInput.ref1}
-            nextRef={refInput.ref2}
-          />
-          <InputCode
-            id={2}
-            currentRef={refInput.ref2}
-            nextRef={refInput.ref3}
-          />
-          <InputCode
-            id={3}
-            currentRef={refInput.ref3}
-            nextRef={refInput.ref4}
-          />
-          <InputCode
-            id={4}
-            currentRef={refInput.ref4}
-            nextRef={refInput.ref5}
-          />
-          <InputCode
-            id={5}
-            currentRef={refInput.ref5}
-            nextRef={refInput.ref6}
-          />
-          <InputCode
-            id={6}
-            currentRef={refInput.ref6}
-            nextRef={refInput.ref7}
-          />
-          <input type='submit' name='submit' id='submit' value='Vérifier' />
+          <div className='number'>
+            <InputCode
+              id={1}
+              currentRef={refInput.ref1}
+              nextRef={refInput.ref2}
+            />
+            <InputCode
+              id={2}
+              currentRef={refInput.ref2}
+              nextRef={refInput.ref3}
+            />
+            <InputCode
+              id={3}
+              currentRef={refInput.ref3}
+              nextRef={refInput.ref4}
+            />
+            <InputCode
+              id={4}
+              currentRef={refInput.ref4}
+              nextRef={refInput.ref5}
+            />
+            <InputCode
+              id={5}
+              currentRef={refInput.ref5}
+              nextRef={refInput.ref6}
+            />
+            <InputCode
+              id={6}
+              currentRef={refInput.ref6}
+              nextRef={refInput.ref7}
+            />
+          </div>
+          <input className='input_submit' type='submit' name='submit' id='submit' value='Vérifier' />
         </form>
       </div>
     </>

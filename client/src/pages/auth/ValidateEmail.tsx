@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import IsLoading from '../../utils/IsLoading';
+import IsLoading from '../../utils/components/IsLoading';
 import { appRedir, appRoute } from '../app.configuration/path.config';
 import ErrorNotif from '../error/ErrorNotif';
 
@@ -31,7 +31,7 @@ const ValidateEmail = () => {
   }, [url]);
   return (
     <>
-    {notif && <ErrorNotif notif={notif} setNotif={setNotif} />}
+      {notif && <ErrorNotif notif={notif} setNotif={setNotif} />}
       <IsLoading />
     </>
   );

@@ -24,4 +24,14 @@ export const appRedir = {
   reset: '/reinitialiser_mot_de_passe',
   errorServer: '/erreur_server',
   errorInternal: '/erreur_interne',
+  getMe: 'données_utilisateur',
+  initProfile: '/initialisation_profil',
+  home: '/accueil',
+  signout: '/deconnexion',
+};
+
+export const bgc = {
+  img: './background/10060.jpg',
+  author: 'pch.vector',
+  site: 'http://www.freepik.com"',
 };

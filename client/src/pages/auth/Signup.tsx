@@ -7,19 +7,17 @@ const Signup = () => {
   return (
     <>
       <div className='auth_container'>
-        <div className='auth_title'>
+        <div className='sign_container'>
           <h1>Inscription</h1>
-        </div>
-        <div className='signup_container'>
           <SignupFormulaire />
-        </div>
-        <div className='auth_link_redir'>
-          <button>
+          <div className='auth_link_redir'>
             <Link to={appRedir.signin}>Déjà un compte ? Se connecter</Link>
-          </button>
-          <button>
-            <Link to={appRedir.resendEmail}>Recevoir un nouveau lien de confirmation d'email</Link>
-          </button>
+          </div>
+          <div className='auth_link_redir'>
+            <Link to={appRedir.resendEmail}>
+              Recevoir un nouveau lien de confirmation d'email
+            </Link>
+          </div>
         </div>
         <div className='auth_bg_container'>
           <SignBackground />

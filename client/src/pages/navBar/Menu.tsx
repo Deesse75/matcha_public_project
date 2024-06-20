@@ -1,6 +1,7 @@
 import { IoMenu } from 'react-icons/io5';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { appRedir } from '../app.configuration/path.config';
 
 const Menu = () => {
   const nav = useNavigate();
@@ -12,7 +13,6 @@ const Menu = () => {
           <button onClick={() => {}}>Compte</button>
           <button onClick={() => {}}>Profil</button>
           <button onClick={() => {}}>Statistiques</button>
-          <button onClick={() => {}}></button>
           <button onClick={() => {}}>
             <FaSearch />
           </button>
