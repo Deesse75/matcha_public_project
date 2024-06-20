@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import InputUser from '../../../utils/components/InputUser';
+import { appRedir, appRoute } from '../../app.configuration/path.config';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const SigninFormulaire = () => {
   const [isValidUsername, setIsValidUsername] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [message, setMessage] = useState('');
+  const nav = useNavigate();
   const [user, setUser] = useState({
     username: '',
     password: '',
@@ -29,12 +33,35 @@ const SigninFormulaire = () => {
   };
 
   useEffect(() => {
-    if (!user.username || user.password) return;
+    if (!user.username || !user.password) return;
     const request = async () => {
+      try {
+        const response = await fetch(appRoute.signin, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: user.username,
+            password: user.password,
+          }),
+        });
+        const data = await response.json();
+        if (response.status !== 200) {
+          setMessage(data.message || response.statusText);
+          if (data.redir) nav(data.redir);
+          return;
+        }
 
+        Cookies.set('session', data.token, { expires: 1 });
+        nav(appRedir.getMe);
+      } catch (error) {
+        setMessage((error as Error).message);
+        nav(appRedir.errorServer);
+      }
     };
     request();
-  }, [user.password, user.username]);
+  }, [user.username, user.password]);
 
   return (
     <>

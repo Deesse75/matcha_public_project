@@ -12,11 +12,7 @@ const Attribution = ({ author, site }: AttributionProps) => {
         justifyContent: 'center',
       }}
     >
-      <div
-        style={{
-          marginTop: '-50px',
-        }}
-      >
+      <div>
         <a href={site} target='blank'>
           {author}
         </a>

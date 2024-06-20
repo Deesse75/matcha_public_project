@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import IsLoading from '../../utils/components/IsLoading';
 import { appRedir, appRoute } from '../app.configuration/path.config';
 import ErrorNotif from '../error/ErrorNotif';
+import Cookies from 'js-cookie';
 
 const ValidateEmail = () => {
   const url = window.location.href;
@@ -10,6 +11,7 @@ const ValidateEmail = () => {
   const nav = useNavigate();
 
   useEffect(() => {
+    Cookies.get('matchaOn') ? null : nav(appRedir.loading);
     if (!url) return;
     const request = async () => {
       try {

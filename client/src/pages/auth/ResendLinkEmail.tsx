@@ -1,9 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { appRedir } from '../app.configuration/path.config';
 import SignBackground from './components/SignBackground';
 import ResendEmailFormulaire from './components/ResendEmailFormulaire';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const ResendLinkEmail = () => {
+  const nav = useNavigate();
+
+  useEffect(() => {
+    Cookies.get('matchaOn') ? null : nav(appRedir.loading);
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className='auth_container'>

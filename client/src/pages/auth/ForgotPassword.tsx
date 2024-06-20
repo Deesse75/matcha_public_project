@@ -1,9 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { appRedir } from '../app.configuration/path.config';
 import ForgotFormulaire from './components/ForgotFormulaire';
 import SignBackground from './components/SignBackground';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 const ForgotPassword = () => {
+  const nav = useNavigate();
+
+  useEffect(() => {
+    Cookies.get('matchaOn') ? null : nav(appRedir.loading);
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className='auth_container'>

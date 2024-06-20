@@ -18,6 +18,8 @@ export const appRedir = {
   loading: '/',
   signin: '/connexion',
   signup: '/inscription',
+  signupSuccess: '/attente_de_validation',
+  resetSuccess: '/mot_de_passe_reinitialise',
   validateEmail: '/validation_email',
   resendEmail: '/renvoyer_lien_validation_email',
   forgot: '/mot_de_passe_oublie',
@@ -30,8 +32,25 @@ export const appRedir = {
   signout: '/deconnexion',
 };
 
-export const bgc = {
-  img: './background/10060.jpg',
-  author: 'pch.vector',
-  site: 'http://www.freepik.com"',
-};
+export const bgc = [
+  {
+    img: './background/10060.jpg',
+    author: 'pch.vector',
+    site: 'http://www.freepik.com',
+  },
+  {
+    img: './background/6006133.jpg',
+    author: 'pch.vector',
+    site: 'http://www.freepik.com',
+  },
+  {
+    img: './background/5608639.jpg',
+    author: 'pch.vector',
+    site: 'http://www.freepik.com',
+  },
+  {
+    img: './background/vecteezy_cartoon-couple-talking-and-drinking-wine-sitting-at-chair_8739125.jpg',
+    author: 'Art Vectors by Vecteezy',
+    site: 'https://www.vecteezy.com/free-vector/art',
+  },
+];

@@ -12,28 +12,32 @@ import ErrorServer from './pages/error/ErrorServer';
 import Error404 from './pages/error/Error404';
 import ErrorInternal from './pages/error/ErrorInternal';
 import Footer from './pages/footer/Footer';
+import SignupSuccess from './pages/auth/SignupSuccess';
+import ResetSuccess from './pages/auth/ResetSuccess';
 
 function App() {
   return (
     <>
-      <div className='navbar_container'>
-        <NavBar />
-      </div>
+      <NavBar />
       <div className='body_container'>
         <Routes>
-        <Route path={appRedir.loading} element={<Loading />} />
-        <Route path={appRedir.signin} element={<Signin />} />
-        <Route path={appRedir.signup} element={<Signup />} />
-        <Route path={appRedir.validateEmail} element={<ValidateEmail />} />
-        <Route path={appRedir.resendEmail} element={<ResendLinkEmail />} />
-        <Route path={appRedir.forgot} element={<ForgotPassword />} />
-        <Route path={appRedir.reset} element={<ResetPassword />} />
-        <Route path={appRedir.errorServer} element={<ErrorServer />} />
-        <Route path={appRedir.errorInternal} element={<ErrorInternal />} />
-        <Route path='/*' element={<Error404 />} />
+          <Route path={appRedir.loading} element={<Loading />} />
+          <Route path={appRedir.signin} element={<Signin />} />
+          <Route path={appRedir.signup} element={<Signup />} />
+          <Route path={appRedir.signupSuccess} element={<SignupSuccess />} />
+          <Route path={appRedir.resetSuccess} element={<ResetSuccess />} />
+          <Route path={appRedir.validateEmail} element={<ValidateEmail />} />
+          <Route path={appRedir.resendEmail} element={<ResendLinkEmail />} />
+          <Route path={appRedir.forgot} element={<ForgotPassword />} />
+          <Route path={appRedir.reset} element={<ResetPassword />} />
+          <Route path={appRedir.errorServer} element={<ErrorServer />} />
+          <Route path={appRedir.errorInternal} element={<ErrorInternal />} />
+          <Route path='/*' element={<Error404 />} />
         </Routes>
       </div>
-      <div className="footer"><Footer /></div>
+      <div className='footer'>
+        <Footer />
+      </div>
     </>
   );
 }

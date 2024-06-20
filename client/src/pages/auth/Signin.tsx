@@ -10,6 +10,7 @@ const Signin = () => {
 
   useEffect(() => {
     Cookies.get('matchaOn') ? null : nav(appRedir.loading);
+    window.scrollTo(0, 0);
   }, []);
   return (
     <>

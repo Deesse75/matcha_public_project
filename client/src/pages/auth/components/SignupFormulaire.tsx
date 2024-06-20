@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import InputUser from '../../../utils/components/InputUser';
+import { appRedir, appRoute } from '../../app.configuration/path.config';
+import { useNavigate } from 'react-router-dom';
 
 const SignupFormulaire = () => {
   const [isValidFirstname, setIsValidFirstname] = useState(false);
@@ -8,6 +10,7 @@ const SignupFormulaire = () => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [message, setMessage] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const nav = useNavigate();
   const [user, setUser] = useState({
     firstname: '',
     lastname: '',
@@ -58,7 +61,33 @@ const SignupFormulaire = () => {
       user.password
     )
       return;
-    const request = async () => {};
+    const request = async () => {
+      try {
+        const response = await fetch(appRoute.signup, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstname: user.firstname,
+            lastname: user.lastname,
+            username: user.username,
+            email: user.email,
+            password: user.password,
+          }),
+        });
+        const data = await response.json();
+        if (response.status !== 201) {
+          setMessage(data.message || response.statusText);
+          if (data.redir) nav(data.redir);
+          return;
+        }
+        nav(appRedir.signupSuccess);
+      } catch (error) {
+        setMessage((error as Error).message);
+        nav(appRedir.errorServer);
+      }
+    };
     request();
   }, [user.firstname, user.lastname, user.username, user.password, user.email]);
 

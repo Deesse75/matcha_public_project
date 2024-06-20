@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
-import { appRedir } from "../app.configuration/path.config";
-import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
+import { appRedir } from '../app.configuration/path.config';
+import Cookies from 'js-cookie';
 
 const ErrorInternal = () => {
   const nav = useNavigate();
 
   const handleClick = () => {
-    if (!Cookies.get('Matcha_Id')) {
+    if (!Cookies.get('matchaOn')) {
       nav(appRedir.loading);
       return;
     }

@@ -1,15 +1,17 @@
 import { IoClose } from 'react-icons/io5';
-import { appRedir } from '../../app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 import InputCode from '../../../utils/components/InputCode';
 import { useRef } from 'react';
+import { appRedir } from '../../app.configuration/path.config';
 
 const ConfirmCode = ({
   code,
   setCode,
+  setMessage,
 }: {
   code: string;
   setCode: React.Dispatch<React.SetStateAction<string>>;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const nav = useNavigate();
   const refInput = {
@@ -24,6 +26,27 @@ const ConfirmCode = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault;
+    if (
+      refInput.ref1.current?.value === '' ||
+      refInput.ref2.current?.value === '' ||
+      refInput.ref3.current?.value === '' ||
+      refInput.ref4.current?.value === '' ||
+      refInput.ref5.current?.value === '' ||
+      refInput.ref6.current?.value === ''
+    ) {
+      setMessage('Le code est incorrect, vous pouvez demander un nouveau code.');
+      setCode('');
+      return;
+    }
+    const newCode: string = `${refInput.ref1.current?.value}${refInput.ref2.current?.value}${refInput.ref3.current?.value}${refInput.ref4.current?.value}${refInput.ref5.current?.value}${refInput.ref6.current?.value}`;
+    if (!newCode || newCode.length !== 6 || newCode !== code) {
+      setMessage(
+        'Le code est incorrect, vous pouvez demander un nouveau code.',
+      );
+      setCode('');
+      return;
+    }
+    nav(appRedir.reset);
   };
 
   return (
@@ -72,7 +95,13 @@ const ConfirmCode = ({
               nextRef={refInput.ref7}
             />
           </div>
-          <input className='input_submit' type='submit' name='submit' id='submit' value='Vérifier' />
+          <input
+            className='input_submit'
+            type='submit'
+            name='submit'
+            id='submit'
+            value='Vérifier'
+          />
         </form>
       </div>
     </>

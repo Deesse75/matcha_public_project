@@ -1,0 +1,42 @@
+.navbar_container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  background-color: $color_pal1_blue1;
+  color: $color_pal1_white;
+
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-left: 20px;
+    cursor: pointer;
+    font-family: Parisienne, cursive;
+  }
+}
+
+.navbar_menu {
+  width: 500px;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-right: 20px;
+
+  .full_menu {
+
+    button {
+      background-color: $color_pal1_blue1;
+      color: $color_pal1_white;
+      border: none;
+      font-size: 1.2rem;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+
+  }
+
+  .small_menu {
+    display: none;
+  }
+}
+

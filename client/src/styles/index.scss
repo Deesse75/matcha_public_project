@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Parisienne&family=Quicksand:wght@300..700&family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto+Slab:wght@100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Sacramento&display=swap');
 @import '_variable.scss';
 // @import '_mixins.scss';
 @import '_app.scss';
-@import '../utils/styles/utils.scss';
+@import '../utils/styles/_utils.globals.scss';
 @import '../pages/auth/styles/_auth.scss';
+@import '../pages/navBar/styles/navbar.scss';
 
