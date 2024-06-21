@@ -7,31 +7,34 @@ import ValidateEmail from './pages/auth/ValidateEmail';
 import Signup from './pages/auth/Signup';
 import ResendLinkEmail from './pages/auth/ResendLinkEmail';
 import ForgotPassword from './pages/auth/ForgotPassword';
-import ResetPassword from './pages/auth/ResetPassword';
 import ErrorServer from './pages/error/ErrorServer';
 import Error404 from './pages/error/Error404';
 import ErrorInternal from './pages/error/ErrorInternal';
 import Footer from './pages/footer/Footer';
-import SignupSuccess from './pages/auth/SignupSuccess';
-import ResetSuccess from './pages/auth/ResetSuccess';
+import { useState } from 'react';
+import Notification from './utils/components/Notification';
+import GetMe from './pages/home/GetMe';
+import Dashboard from './pages/home/Dashboard';
 
 function App() {
+  const [notif, setNotif] = useState('');
+
   return (
     <>
       <NavBar />
       <div className='body_container'>
+        <Notification notif={notif} setNotif={setNotif} />
         <Routes>
-          <Route path={appRedir.loading} element={<Loading />} />
-          <Route path={appRedir.signin} element={<Signin />} />
-          <Route path={appRedir.signup} element={<Signup />} />
-          <Route path={appRedir.signupSuccess} element={<SignupSuccess />} />
-          <Route path={appRedir.resetSuccess} element={<ResetSuccess />} />
-          <Route path={appRedir.validateEmail} element={<ValidateEmail />} />
-          <Route path={appRedir.resendEmail} element={<ResendLinkEmail />} />
-          <Route path={appRedir.forgot} element={<ForgotPassword />} />
-          <Route path={appRedir.reset} element={<ResetPassword />} />
+          <Route path={appRedir.loading} element={<Loading setNotif={setNotif} />} />
+          <Route path={appRedir.signin} element={<Signin setNotif={setNotif} />} />
+          <Route path={appRedir.signup} element={<Signup setNotif={setNotif} />} />
+          <Route path={appRedir.validateEmail} element={<ValidateEmail setNotif={setNotif} />} />
+          <Route path={appRedir.resendEmail} element={<ResendLinkEmail setNotif={setNotif} />} />
+          <Route path={appRedir.forgotPassword} element={<ForgotPassword setNotif={setNotif} />} />
           <Route path={appRedir.errorServer} element={<ErrorServer />} />
           <Route path={appRedir.errorInternal} element={<ErrorInternal />} />
+          <Route path={appRedir.getMe} element={<GetMe setNotif={setNotif} />} />
+          <Route path={appRedir.home} element={<Dashboard setNotif={setNotif} />} />
           <Route path='/*' element={<Error404 />} />
         </Routes>
       </div>

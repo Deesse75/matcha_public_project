@@ -1,19 +1,20 @@
 import { IoClose } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
 import InputCode from '../../../utils/components/InputCode';
-import { useRef } from 'react';
-import { appRedir } from '../../app.configuration/path.config';
+import { useEffect, useRef, useState } from 'react';
+import { appRoute } from '../../app.configuration/path.config';
 
 const ConfirmCode = ({
-  code,
+  email,
+  setNotif,
+  setReinit,
   setCode,
-  setMessage,
 }: {
-  code: string;
-  setCode: React.Dispatch<React.SetStateAction<string>>;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+  setReinit: React.Dispatch<React.SetStateAction<boolean>>;
+  setCode: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const nav = useNavigate();
+  const [newCode, setNewCode] = useState('');
   const refInput = {
     ref1: useRef<HTMLInputElement>(null),
     ref2: useRef<HTMLInputElement>(null),
@@ -34,28 +35,56 @@ const ConfirmCode = ({
       refInput.ref5.current?.value === '' ||
       refInput.ref6.current?.value === ''
     ) {
-      setMessage('Le code est incorrect, vous pouvez demander un nouveau code.');
-      setCode('');
+      setNotif('Le code est incorrect');
+      setCode(false);
       return;
     }
     const newCode: string = `${refInput.ref1.current?.value}${refInput.ref2.current?.value}${refInput.ref3.current?.value}${refInput.ref4.current?.value}${refInput.ref5.current?.value}${refInput.ref6.current?.value}`;
-    if (!newCode || newCode.length !== 6 || newCode !== code) {
-      setMessage(
-        'Le code est incorrect, vous pouvez demander un nouveau code.',
-      );
-      setCode('');
+    if (!newCode || newCode.length !== 6) {
+      setNotif('Le code est incorrect');
+      setCode(false);
       return;
     }
-    nav(appRedir.reset);
+    setNewCode(newCode);
   };
+
+  useEffect(() => {
+    if (!newCode) return;
+    const request = async () => {
+      try {
+        const response = await fetch(appRoute.validatePassCode, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            newCode: newCode,
+            email: email,
+          }),
+        });
+        const data = await response.json();
+        if (response.status !== 200) {
+          setNotif(data?.message || response.statusText);
+          setCode(false);
+          return;
+        }
+        setReinit(true);
+        setCode(false);
+      } catch (error) {
+        setNotif((error as Error).message);
+        setCode(false);
+      }
+    };
+    request();
+  }, [newCode]);
 
   return (
     <>
-      <div className='confirm_code_container'>
+      <div className='change_password_container'>
         <div className='close'>
           <button
             onClick={() => {
-              setCode('');
+              setCode(false);
             }}
           >
             <IoClose size={28} />

@@ -5,7 +5,11 @@ import IsLoading from '../../utils/components/IsLoading';
 import { appRoute } from '../app.configuration/path.config';
 import Cookies from 'js-cookie';
 
-const Loading = () => {
+const Loading = ({
+  setNotif,
+}: {
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const nav = useNavigate();
   const [matchaOn, setMatchaOn] = useState(false);
   const [url, setUrl] = useState('');
@@ -17,9 +21,9 @@ const Loading = () => {
     Cookies.remove('Geoloc');
     Cookies.remove('IP');
     //a supprimer *********************************************
-      Cookies.set('matchaOn', 'Matcha', { expires: 1 });
-      nav(appRedir.signin);
-      return
+    Cookies.set('matchaOn', 'Matcha', { expires: 1 });
+    nav(appRedir.signin);
+    return;
     //a supprimer *********************************************
     setReset(true);
     const request = async () => {
@@ -27,6 +31,7 @@ const Loading = () => {
         const response = await fetch(appRoute.init);
         const data = await response.json();
         if (response.status !== 200) {
+          setNotif(data.message || response.statusText);
           nav(appRedir.errorServer);
           return;
         }
@@ -34,6 +39,7 @@ const Loading = () => {
         Cookies.set('matchaOn', 'Matcha', { expires: 1 });
         setMatchaOn(true);
       } catch (error) {
+        setNotif((error as Error).message);
         nav(appRedir.errorServer);
         return;
       }
@@ -75,7 +81,10 @@ const Loading = () => {
         Cookies.set('Geoloc', data.address.state, { expires: 1 });
         Cookies.get('session') ? nav(appRedir.getMe) : nav(appRedir.signin);
       } catch (error) {
-        console.log('Echec lors de la récupération de la géolocalisation: ', error);
+        console.log(
+          'Echec lors de la récupération de la géolocalisation: ',
+          error,
+        );
         Cookies.get('session') ? nav(appRedir.getMe) : nav(appRedir.signin);
       }
     };

@@ -20,11 +20,7 @@ const ErrorServer = () => {
     <>
       <div className='page_error'>
         <div className='title'>ERROR SERVER</div>
-        <div className='text'>
-          Nous avons rencontré un problème lors de la connexion au serveur,
-          veuillez réessayer.
-        </div>
-        <button onClick={handleClick}>Retour a l'acceuil</button>
+        <button onClick={handleClick}>Retour</button>
       </div>
     </>
   );

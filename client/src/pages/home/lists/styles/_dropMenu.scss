@@ -1,0 +1,42 @@
+.drop_menu_container {
+  width: 500px;
+  max-height: 800px;
+  margin: 20px;
+  padding: 1px 0;
+  box-shadow: 1px 1px 5px 1px $color_pal1_blue1;
+  background-color: $color_pal1_yellow1;
+  border: 1px solid $color_pal1_blue1;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .tab {
+    .title {
+      width: 495px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: $color_pal1_white;
+      border: 1px solid $color_pal1_yellow1;
+      background: rgb(105, 105, 199);
+      background: linear-gradient(
+        352deg,
+        rgba(105, 105, 199, 1) 0%,
+        rgba(38, 38, 135, 1) 100%
+        );
+    }
+    
+    .content {
+      width: 485px;
+      height: 500px;
+      max-height: 500px;
+      padding: 0 5px;
+      background-color: $color_pal1_white;
+    }
+  }
+}

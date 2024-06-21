@@ -2,14 +2,21 @@ import { useEffect, useState } from 'react';
 import InputUser from '../../../utils/components/InputUser';
 import { useNavigate } from 'react-router-dom';
 import { appRoute, appRedir } from '../../app.configuration/path.config';
-import Cookies from 'js-cookie';
+import { IoClose } from 'react-icons/io5';
 
-const ResetFormulaire = () => {
+const ReinitPassword = ({
+  email,
+  setNotif,
+  setReinit,
+}: {
+  email: string;
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+  setReinit: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const nav = useNavigate();
-  const resetToken = Cookies.get('reset');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +27,9 @@ const ResetFormulaire = () => {
       return;
     }
     if (!isValidPassword) {
-      setMessage("Le mot de passe est invalide, survolez les warnings pour plus d'informations");
+      setMessage(
+        "Le mot de passe est invalide, survolez les warnings pour plus d'informations",
+      );
       return;
     }
     setPassword(e.currentTarget.password.value);
@@ -30,26 +39,26 @@ const ResetFormulaire = () => {
     if (!password) return;
     const request = async () => {
       try {
-        const response = await fetch(appRoute.reset, {
+        const response = await fetch(appRoute.reinitPassword, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             password: password,
-            resetToken: resetToken,
+            email: email,
           }),
         });
         const data = await response.json();
-        Cookies.remove('reset');
         if (response.status !== 200) {
-          setMessage(data.message || response.statusText);
-          if (data.redir) nav(data.redir);
+          setNotif(data?.message || response.statusText);
+          setReinit(false);
           return;
         }
-        nav(appRedir.resetSuccess);
+        setNotif(data?.message || response.statusText);
+        nav(appRedir.signin);
       } catch (error) {
-        setMessage((error as Error).message);
+        setNotif((error as Error).message);
         nav(appRedir.errorServer);
       }
     };
@@ -58,13 +67,25 @@ const ResetFormulaire = () => {
 
   return (
     <>
-      <div className='sign_formulaire'>
+      <div className='change_password_container'>
+        <div className='close'>
+          <button
+            onClick={() => {
+              setReinit(false);
+            }}
+          >
+            <IoClose size={28} />
+          </button>
+        </div>
+        <div className='title'>
+          Veuillez renseigner votre nouveau mot de passe.
+        </div>
         <div className='message'>{message}</div>
         <form onSubmit={handleSubmit}>
           <InputUser
             id='password2'
             type='password'
-            placeholder='Entrez votre nouveau mot de passe'
+            placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
             setIsValid={setIsValidPassword}
           />
           <input
@@ -80,4 +101,4 @@ const ResetFormulaire = () => {
   );
 };
 
-export default ResetFormulaire;
+export default ReinitPassword;

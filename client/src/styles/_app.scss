@@ -10,6 +10,31 @@ body {
   min-height: 85vh;
 }
 
+.notif_container {
+  position: absolute;
+  top: 10px;
+  width: 98%;
+  margin: 0 auto;
+  display: flex;
+  .notification {
+    margin: 0 0 0 auto;
+    background-color: rgb(61, 61, 62);
+    color: $color_pal1_white;
+    padding: 5px 15px 15px 15px;
+    border-radius: 5px;
+    min-width: 200px;
+    max-width: 800px;
+    min-height: 50px;
+    font-size: 1.1rem;
+    z-index: 1000;
+    .close {
+      display: flex;
+      justify-content: right;
+      cursor: pointer;
+    }
+  }
+}
+
 .footer {
   width: 100%;
   min-height: 100px;

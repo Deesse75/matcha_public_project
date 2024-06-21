@@ -3,7 +3,11 @@ import InputUser from '../../../utils/components/InputUser';
 import { appRoute, appRedir } from '../../app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 
-const ResendEmailFormulaire = () => {
+const ResendEmailFormulaire = ({
+  setNotif,
+}: {
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -12,15 +16,11 @@ const ResendEmailFormulaire = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.email.value) {
-      setMessage(
-        'Veuillez renseigner votre adresse email',
-      );
+      setMessage('Veuillez renseigner votre adresse email');
       return;
     }
     if (!isValidEmail) {
-      setMessage(
-        "L'adresse email que vous avez entrée est incorrecte",
-      );
+      setMessage("L'adresse email que vous avez entrée est incorrecte");
       return;
     }
     setEmail(e.currentTarget.email.value);
@@ -41,19 +41,21 @@ const ResendEmailFormulaire = () => {
         });
         const data = await response.json();
         if (response.status !== 200) {
-          setMessage(data.message || response.statusText);
-          if (data.redir) nav(data.redir);
+          if (data.redir) {
+            setNotif(data?.message || response.statusText);
+            nav(data.redir);
+          } else setMessage(data.message);
           return;
         }
-        nav(appRedir.signupSuccess);
+        setNotif(data?.message || response.statusText);
+        nav(appRedir.signin);
       } catch (error) {
-        setMessage((error as Error).message);
-        nav(appRedir.errorServer);
+        setNotif((error as Error).message);
+        nav(appRedir.errorInternal);
       }
     };
     request();
   }, [email]);
-
 
   return (
     <>

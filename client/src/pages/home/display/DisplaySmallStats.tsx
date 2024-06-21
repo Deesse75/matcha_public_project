@@ -2,7 +2,7 @@ import BlockNum from '../statistic/BlockNum';
 import LikerNum from '../statistic/LikerNum';
 import MatchNum from '../statistic/MatchNum';
 import Popularity from '../statistic/Popularity';
-import PourcentProfil from '../statistic/PourcentProfil';
+import PourcentProfil from '../statistic/PourcentProfile';
 import ViewerNum from '../statistic/ViewerNum';
 
 const DisplaySmallStats = () => {

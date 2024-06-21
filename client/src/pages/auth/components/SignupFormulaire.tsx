@@ -3,7 +3,11 @@ import InputUser from '../../../utils/components/InputUser';
 import { appRedir, appRoute } from '../../app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 
-const SignupFormulaire = () => {
+const SignupFormulaire = ({
+  setNotif,
+}: {
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const [isValidFirstname, setIsValidFirstname] = useState(false);
   const [isValidLastname, setIsValidLastname] = useState(false);
   const [isValidUsername, setIsValidUsername] = useState(false);
@@ -78,14 +82,17 @@ const SignupFormulaire = () => {
         });
         const data = await response.json();
         if (response.status !== 201) {
-          setMessage(data.message || response.statusText);
-          if (data.redir) nav(data.redir);
+          if (data.redir) {
+            setNotif(data?.message || response.statusText);
+            nav(data.redir);
+          } else setMessage(data.message);
           return;
         }
-        nav(appRedir.signupSuccess);
+        setNotif(data?.message || response.statusText);
+        nav(appRedir.signin);
       } catch (error) {
-        setMessage((error as Error).message);
-        nav(appRedir.errorServer);
+        setNotif((error as Error).message);
+        nav(appRedir.errorInternal);
       }
     };
     request();
@@ -126,7 +133,13 @@ const SignupFormulaire = () => {
             placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
             setIsValid={setIsValidPassword}
           />
-          <input className='input_submit' type='submit' name='submit' id='submit' value="S'inscrire" />
+          <input
+            className='input_submit'
+            type='submit'
+            name='submit'
+            id='submit'
+            value="S'inscrire"
+          />
         </form>
       </div>
     </>

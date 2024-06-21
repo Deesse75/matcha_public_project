@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import IsLoading from '../../utils/components/IsLoading';
 import { appRedir, appRoute } from '../app.configuration/path.config';
-import ErrorNotif from '../error/ErrorNotif';
-import Cookies from 'js-cookie';
 
-const ValidateEmail = () => {
+const ValidateEmail = ({
+  setNotif,
+}: {
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const url = window.location.href;
-  const [notif, setNotif] = useState('');
   const nav = useNavigate();
 
   useEffect(() => {
-    Cookies.get('matchaOn') ? null : nav(appRedir.loading);
     if (!url) return;
     const request = async () => {
       try {
@@ -21,9 +21,8 @@ const ValidateEmail = () => {
           body: JSON.stringify({ url: url }),
         });
         const data = await response.json();
-        setNotif(data.message || response.statusText);
-        if (data.redir) nav(data.redir);
-        else nav(appRedir.signin);
+        setNotif(data?.message || response.statusText);
+        nav(appRedir.signin);
       } catch (error) {
         setNotif((error as Error).message);
         nav(appRedir.errorInternal);
@@ -33,7 +32,6 @@ const ValidateEmail = () => {
   }, [url]);
   return (
     <>
-      {notif && <ErrorNotif notif={notif} setNotif={setNotif} />}
       <IsLoading />
     </>
   );

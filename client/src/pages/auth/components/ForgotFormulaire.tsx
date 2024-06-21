@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import InputUser from '../../../utils/components/InputUser';
-import ConfirmCode from './ConfirmCode';
 import { appRoute, appRedir } from '../../app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
 
-const ForgotFormulaire = () => {
+const ForgotFormulaire = ({
+  email,
+  setEmail,
+  setNotif,
+  setCode,
+}: {
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setNotif: React.Dispatch<React.SetStateAction<string>>;
+  setCode: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [isValidEmail, setIsValidEmail] = useState(false);
-  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [code, setCode] = useState('');
   const nav = useNavigate();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -29,7 +35,7 @@ const ForgotFormulaire = () => {
     if (!email) return;
     const request = async () => {
       try {
-        const response = await fetch(appRoute.forgot, {
+        const response = await fetch(appRoute.forgotPassword, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -40,15 +46,16 @@ const ForgotFormulaire = () => {
         });
         const data = await response.json();
         if (response.status !== 200) {
-          setMessage(data.message || response.statusText);
-          if (data.redir) nav(data.redir);
+          if (data.redir) {
+            setNotif(data?.message || response.statusText);
+            nav(data.redir);
+          } else setMessage(data.message);
           return;
         }
-        setCode(data.code);
-        Cookies.set('reset', data.token, { expires: 1 });
+        setCode(true);
       } catch (error) {
-        setMessage((error as Error).message);
-        nav(appRedir.errorServer);
+        setNotif((error as Error).message);
+        nav(appRedir.errorInternal);
       }
     };
     request();
@@ -73,11 +80,6 @@ const ForgotFormulaire = () => {
           />
         </form>
       </div>
-      {code && (
-        <>
-          <ConfirmCode code={code} setCode={setCode} setMessage={setMessage} />
-        </>
-      )}
     </>
   );
 };
