@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
-import InputUser from '../../../utils/components/InputUser';
+import InputUser from '../../../components/app.utilities/components/InputUser';
 import { useNavigate } from 'react-router-dom';
-import { appRoute, appRedir } from '../../app.configuration/path.config';
+import {
+  appRoute,
+  appRedir,
+} from '../../../components/app.configuration/path.config';
 import { IoClose } from 'react-icons/io5';
 
 const ReinitPassword = ({

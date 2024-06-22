@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import MatchaFilter from './MatchaFilter';
 
 const DropMenu = () => {
   const [matchaFilter, setMatchFilter] = useState(true);
@@ -25,7 +26,7 @@ const DropMenu = () => {
     <div className='drop_menu_container'>
       <div className='tab'>
         <div className='title' onClick={() => {handleClick('matchaFilter')}}>Selection Matcha</div>
-        {matchaFilter && <div className='content'>Contenu matcha filter</div>}
+        {matchaFilter && <div className='content'><MatchaFilter /></div>}
       </div>
       <div className='tab'>
         <div className='title' onClick={() => {handleClick('viewer')}}>Vos visiteurs</div>

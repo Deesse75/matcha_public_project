@@ -1,0 +1,45 @@
+.small_profile {
+  display: flex;
+  margin: 5px 0;
+  border-radius: 5px;
+  border: 1px solid $color_pal1_blue2;
+  box-shadow: 1px 1px 5px 1px $color_pal1_blue1;
+
+  .small_left {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .photo {
+      width: 70px;
+      height: 70px;
+    }
+
+    .connected {
+      font-size: 0.6rem;
+    }
+  }
+
+  .small_right {
+    width: 80%;
+    display: flex;
+    padding: 5px 15px;
+    flex-direction: column;
+    
+    .small_part_top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .small_part_bottom {
+      display: flex;
+      width: 100%;
+      color: $color_pal1_blue1;
+      font-weight: bold;
+    }
+  }
+
+}

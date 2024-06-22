@@ -1,14 +1,65 @@
-@import '../statistic/styles/_stats.scss';
-@import '../lists/styles/matchaFilter';
-@import '../lists/styles/_dropMenu.scss';
+@import '../account/styles/_account.scss';
+@import '../display/styles/_display.scss';
+@import '../lists/styles/_lists.scss';
+@import '../profile/styles/_profile.scss';
+@import '../search/styles/_search.scss';
 
-.dashboard {
+.home_page {
   width: 100%;
+  max-width: 1800px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
-.list_container {
-  width: 1600px;
+.statistic_container {
+  width: 100%;
+  z-index: 1;
+  position: absolute;
   display: flex;
-  margin: 20px auto;
+  top: 0;
+  align-items: center;
   justify-content: center;
+}
+
+.body_container {
+  width: 100%;
+  display: flex;
+  margin: 0;
+  justify-content: space-between;
+  box-shadow: 1px 1px 5px 2px $color_pal1_blue1;
+  background: rgb(105, 105, 199);
+  background: linear-gradient(
+    352deg,
+    rgba(105, 105, 199, 1) 0%,
+    rgba(38, 38, 135, 1) 100%
+  );
+}
+
+.display {
+  width: 85%;
+  max-width: 1230px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  border-radius: 8px;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.display_body {
+  width: 85%;
+  max-width: 1230px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  background-color: white;
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 40px 0 0 20px;
 }

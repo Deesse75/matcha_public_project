@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
-import { appRedir } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
 
 const Error404 = () => {
   const nav = useNavigate();

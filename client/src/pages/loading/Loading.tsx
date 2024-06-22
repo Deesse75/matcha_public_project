@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { appRedir } from '../app.configuration/path.config';
-import IsLoading from '../../utils/components/IsLoading';
-import { appRoute } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
+import IsLoading from '../../components/app.utilities/components/IsLoading';
+import { appRoute } from '../../components/app.configuration/path.config';
 import Cookies from 'js-cookie';
 
 const Loading = ({

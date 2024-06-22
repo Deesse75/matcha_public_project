@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Menu from './Menu';
-import { appRedir } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 

@@ -1,9 +1,9 @@
-import Attribution from '../../../utils/components/Attribution';
-import { bgc } from '../../app.configuration/path.config';
+import Attribution from '../../../components/app.utilities/components/Attribution';
+import { bgc } from '../../../components/app.configuration/path.config';
 
 const SignBackground = () => {
-  const random = (Math.floor(Math.random() * 10) % 4);
-  console.log(random)
+  const random = Math.floor(Math.random() * 10) % 4;
+  console.log(random);
   return (
     <>
       <img src={bgc[random].img} />

@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import SignBackground from './components/SignBackground';
-import { appRedir } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
 import SignupFormulaire from './components/SignupFormulaire';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';

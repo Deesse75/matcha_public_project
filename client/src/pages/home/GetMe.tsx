@@ -1,9 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import IsLoading from '../../utils/components/IsLoading';
+import IsLoading from '../../components/app.utilities/components/IsLoading';
 import { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { appRedir, appRoute } from '../app.configuration/path.config';
-import { AppContext } from '../../utils/context/app.context';
+import {
+  appRedir,
+  appRoute,
+} from '../../components/app.configuration/path.config';
+import { AppContext } from '../../components/app.utilities/context/app.context';
 
 const GetMe = ({
   setNotif,
@@ -28,6 +31,10 @@ const GetMe = ({
 
   useEffect(() => {
     if (!connected) return;
+    //a supprimer****************************************************************
+    nav(appRedir.home);
+    return;
+    //a supprimer****************************************************************
     window.scrollTo(0, 0);
     const request = async () => {
       try {
@@ -47,7 +54,7 @@ const GetMe = ({
         me.userDispatch({
           type: 'SET_USER_ON',
           payload: data.user,
-        })
+        });
         nav(appRedir.home);
       } catch (error) {
         setNotif((error as Error).message);

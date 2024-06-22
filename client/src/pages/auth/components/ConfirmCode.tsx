@@ -1,7 +1,7 @@
 import { IoClose } from 'react-icons/io5';
-import InputCode from '../../../utils/components/InputCode';
+import InputCode from '../../../components/app.utilities/components/InputCode';
 import { useEffect, useRef, useState } from 'react';
-import { appRoute } from '../../app.configuration/path.config';
+import { appRoute } from '../../../components/app.configuration/path.config';
 
 const ConfirmCode = ({
   email,

@@ -1,0 +1,10 @@
+@import './_smallProfile.scss';
+@import './_smallStats.scss';
+@import './_body.scss';
+@import './_fullProfile.scss';
+
+.mini_user {
+  display: flex;
+  flex-direction: column;
+}
+

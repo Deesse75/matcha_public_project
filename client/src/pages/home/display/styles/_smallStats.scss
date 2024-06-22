@@ -1,0 +1,45 @@
+  .mini_bar {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .module_stat_container {
+    width: 40%;
+    max-width: 700px;
+    min-width: 600px;
+    height: 80px;
+    margin: 0 auto;
+    display: flex;
+    background-color: $color_pal1_white;
+    padding: 20px 25px 10px 25px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 5px 1px $color_pal1_blue1;
+  }
+
+.stat_container {
+  width: 50px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-self: center;
+}
+
+.nb_stat_container {
+  min-width: 8px;
+  font-size: 0.7rem;
+  position: absolute;
+  left: 25px;
+  top: 0;
+  margin-top: -15px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color_pal1_yellow1;
+  border-radius: 50%;
+  background-color: $color_pal1_white;
+  border: 1px solid $color_pal1_yellow1;
+}

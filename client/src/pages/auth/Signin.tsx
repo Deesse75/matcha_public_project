@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import SignBackground from './components/SignBackground';
 import SigninFormulaire from './components/SigninFormulaire';
-import { appRedir } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 

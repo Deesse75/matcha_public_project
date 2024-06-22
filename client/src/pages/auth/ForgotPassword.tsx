@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { appRedir } from '../app.configuration/path.config';
+import { appRedir } from '../../components/app.configuration/path.config';
 import ForgotFormulaire from './components/ForgotFormulaire';
 import SignBackground from './components/SignBackground';
 import { useEffect, useState } from 'react';

@@ -1,5 +1,5 @@
 .drop_menu_container {
-  width: 500px;
+  width: 406px;
   max-height: 800px;
   margin: 20px;
   padding: 1px 0;
@@ -13,9 +13,10 @@
 
   .tab {
     .title {
-      width: 495px;
+      width: 400px;
       height: 40px;
       display: flex;
+      box-sizing: border-box;
       justify-content: center;
       align-items: center;
       font-weight: bold;
@@ -32,10 +33,13 @@
     }
     
     .content {
-      width: 485px;
-      height: 500px;
+      width: 400px;
+      height: 400px;
       max-height: 500px;
       padding: 0 5px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
       background-color: $color_pal1_white;
     }
   }

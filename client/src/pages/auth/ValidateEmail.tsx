@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import IsLoading from '../../utils/components/IsLoading';
-import { appRedir, appRoute } from '../app.configuration/path.config';
+import IsLoading from '../../components/app.utilities/components/IsLoading';
+import {
+  appRedir,
+  appRoute,
+} from '../../components/app.configuration/path.config';
 
 const ValidateEmail = ({
   setNotif,
