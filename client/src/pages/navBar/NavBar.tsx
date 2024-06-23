@@ -4,7 +4,17 @@ import { appRedir } from '../../components/app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-const NavBar = () => {
+const NavBar = ({
+  setOpenAccount,
+  setOpenProfile,
+  setOpenChat,
+  setOpenSearch,
+}: {
+  setOpenAccount: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenProfile: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSearch: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const nav = useNavigate();
   const [menu, setMenu] = useState(true);
 
@@ -26,7 +36,14 @@ const NavBar = () => {
         <div className='title' onClick={handleClick}>
           Matcha
         </div>
-        {menu && <Menu />}
+        {menu && (
+          <Menu
+            setOpenAccount={setOpenAccount}
+            setOpenProfile={setOpenProfile}
+            setOpenChat={setOpenChat}
+            setOpenSearch={setOpenSearch}
+          />
+        )}
       </div>
     </>
   );

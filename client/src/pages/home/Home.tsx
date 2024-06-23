@@ -2,14 +2,12 @@ import DisplayBody from './display/DisplayBody';
 import DisplaySmallStats from './display/DisplaySmallStats';
 import DropMenu from './lists/DropMenu';
 
-const Home = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
+const Home = ({openAccount, openProfile, openChat, openSearch}: {
+  openAccount: boolean;
+  openProfile: boolean;
+  openChat: boolean;
+  openSearch: boolean;
 }) => {
-  // Recuperer toutes les donnes de l utilisateurs
-  // -Listes de profils selectionnes par Matcha
-  // -La valeur de chaque stats
   return (
     <>
       <div className='home_page'>
@@ -17,7 +15,12 @@ const Home = ({
           <DisplaySmallStats />
         </div>
         <div className='body_container'>
-          <DisplayBody />
+          <DisplayBody
+            openAccount={openAccount}
+            openProfile={openProfile}
+            openChat={openChat}
+            openSearch={openSearch}
+          />
           <DropMenu />
         </div>
       </div>

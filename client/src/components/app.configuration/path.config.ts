@@ -13,6 +13,9 @@ export const appRoute = {
   forgotPassword: `${PATH}/auth/forgot_password`,
   reinitPassword: `${PATH}/auth/reinit_password`,
   getMe: `${PATH}/user/get_me`,
+  stats: `${PATH}/display/stats`,
+  getList: `${PATH}/display/get_list`,
+  getOneProfile: `${PATH}/display/get_one_profile`,
 };
 
 export const appRedir = {

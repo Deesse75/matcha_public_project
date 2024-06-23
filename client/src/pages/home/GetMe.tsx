@@ -6,7 +6,7 @@ import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
-import { AppContext } from '../../components/app.utilities/context/app.context';
+import { UserContext } from '../../components/app.utilities/context/user.context';
 
 const GetMe = ({
   setNotif,
@@ -14,7 +14,7 @@ const GetMe = ({
   setNotif: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const nav = useNavigate();
-  const me = useContext(AppContext);
+  const me = useContext(UserContext);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {

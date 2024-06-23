@@ -18,10 +18,19 @@ import Home from './pages/home/Home';
 
 function App() {
   const [notif, setNotif] = useState('');
+  const [openAccount, setOpenAccount] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openChat, setOpenChat] = useState(false);
+  const [openSearch, setOpenSearch] = useState(false);
 
   return (
     <>
-      <NavBar />
+      <NavBar
+        setOpenAccount={setOpenAccount}
+        setOpenProfile={setOpenProfile}
+        setOpenChat={setOpenChat}
+        setOpenSearch={setOpenSearch}
+      />
       <div className='body_container'>
         <Notification notif={notif} setNotif={setNotif} />
         <Routes>
@@ -57,7 +66,14 @@ function App() {
           />
           <Route
             path={appRedir.home}
-            element={<Home setNotif={setNotif} />}
+            element={
+              <Home
+                openAccount={openAccount}
+                openProfile={openProfile}
+                openChat={openChat}
+                openSearch={openSearch}
+              />
+            }
           />
           <Route path='/*' element={<Error404 />} />
         </Routes>

@@ -1,18 +1,38 @@
-import { useState } from 'react';
-import MatchaFilter from './MatchaFilter';
+import { useContext, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
+import { appRoute } from '../../../components/app.configuration/path.config';
+import { ListContext } from '../../../components/app.utilities/context/list.context';
+import List from './List';
 
 const DropMenu = () => {
-  const [matchaFilter, setMatchFilter] = useState(true);
-  const [viewer, setViewer] = useState(false);
-  const [liker, setLiker] = useState(false);
-  const [match, setMatch] = useState(false);
-  const [visited, setVisited] = useState(false);
-  const [liked, setLiked] = useState(false);
-  const [banned, setBanned] = useState(false);
+  const [matchaTab, setMatchaTab] = useState(true);
+  const [viewerTab, setViewerTab] = useState(false);
+  const [likerTab, setLikerTab] = useState(false);
+  const [matchTab, setMatchTab] = useState(false);
+  const [visitedTab, setVisitedTab] = useState(false);
+  const [likedTab, setLikedTab] = useState(false);
+  const [bannedTab, setBannedTab] = useState(false);
+  const list = useContext(ListContext);
 
   const handleClick = (value: string) => {
-    const tab = ['matchaFilter', 'viewer', 'liker', 'match', 'visited', 'liked', 'banned'];
-    const setters = [setMatchFilter, setViewer, setLiker, setMatch, setVisited, setLiked, setBanned];
+    const tab = [
+      'matchaTab',
+      'viewerTab',
+      'likerTab',
+      'matchTab',
+      'visitedTab',
+      'likedTab',
+      'bannedTab',
+    ];
+    const setters = [
+      setMatchaTab,
+      setViewerTab,
+      setLikerTab,
+      setMatchTab,
+      setVisitedTab,
+      setLikedTab,
+      setBannedTab,
+    ];
     for (const word of tab) {
       if (word === value) {
         setters[tab.indexOf(word)](true);
@@ -22,35 +42,140 @@ const DropMenu = () => {
     }
   };
 
+  useEffect(() => {
+    const request = async () => {
+      try {
+        const response = await fetch(appRoute.getList, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${Cookies.get('session')}`,
+          },
+        });
+        if (response.status === 200) {
+        const data = await response.json();
+          list.setMatchaList(data?.matchaList);
+          list.setViewerList(data?.viewer);
+          list.setLikerList(data?.liker);
+          list.setMatchList(data?.match);
+          list.setVisitedList(data?.visited);
+          list.setLikedList(data?.liked);
+          list.setBannedList(data?.banned);
+        }
+      } catch (error) {
+        console.error("Erreur", error);
+        return;
+      }
+    };
+    request();
+  }, []);
+
   return (
     <div className='drop_menu_container'>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('matchaFilter')}}>Selection Matcha</div>
-        {matchaFilter && <div className='content'><MatchaFilter /></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('matchaTab');
+          }}
+        >
+          Selection Matcha
+        </div>
+        {matchaTab && (
+          <div className='content'>
+            <List listName='matchaList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('viewer')}}>Vos visiteurs</div>
-       {viewer && <div className='content'>Contenu viewers</div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('viewerTab');
+          }}
+        >
+          Vos visiteurs
+        </div>
+        {viewerTab && (
+          <div className='content'>
+            <List listName='viewerList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('liker')}}>Vos admirateurs</div>
-       {liker && <div className='content'></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('likerTab');
+          }}
+        >
+          Vos admirateurs
+        </div>
+        {likerTab && (
+          <div className='content'>
+            <List listName='likerList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('match')}}>Matchs</div>
-       {match && <div className='content'></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('matchTab');
+          }}
+        >
+          Matchs
+        </div>
+        {matchTab && (
+          <div className='content'>
+            <List listName='matchList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('visited')}}>Profils visités</div>
-       {visited && <div className='content'></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('visitedTab');
+          }}
+        >
+          Profils visités
+        </div>
+        {visitedTab && (
+          <div className='content'>
+            <List listName='visitedList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('liked')}}>Profils likés</div>
-       {liked && <div className='content'></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('likedTab');
+          }}
+        >
+          Profils likés
+        </div>
+        {likedTab && (
+          <div className='content'>
+            <List listName='likedList' />
+          </div>
+        )}
       </div>
       <div className='tab'>
-        <div className='title' onClick={() => {handleClick('banned')}}>Profils bloqués</div>
-       {banned && <div className='content'></div>}
+        <div
+          className='title'
+          onClick={() => {
+            handleClick('bannedTab');
+          }}
+        >
+          Profils bloqués
+        </div>
+        {bannedTab && (
+          <div className='content'>
+            <List listName='bannedList' />
+          </div>
+        )}
       </div>
     </div>
   );
