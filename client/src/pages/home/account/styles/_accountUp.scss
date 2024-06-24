@@ -1,0 +1,15 @@
+.accountUp_container {
+  width: 800px;
+  height: 600px;
+  margin: -20px 0 0  -100px ;
+  left: 0;
+  padding: 20px;
+  display: flex;
+  position: absolute;
+  top: 0;
+  flex-direction: column;
+  border-radius: 20px;
+  background-color: $color_pal1_pink3;
+  box-shadow: 1px 1px 5px 1px $color_pal1-pink2;
+
+}

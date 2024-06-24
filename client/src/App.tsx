@@ -15,6 +15,8 @@ import { useState } from 'react';
 import Notification from './components/app.utilities/components/Notification';
 import GetMe from './pages/home/GetMe';
 import Home from './pages/home/Home';
+import Signout from './pages/home/clear/Signout';
+import Delete from './pages/home/clear/Delete';
 
 function App() {
   const [notif, setNotif] = useState('');
@@ -31,7 +33,7 @@ function App() {
         setOpenChat={setOpenChat}
         setOpenSearch={setOpenSearch}
       />
-      <div className='body_container'>
+      <div className='app_container'>
         <Notification notif={notif} setNotif={setNotif} />
         <Routes>
           <Route
@@ -75,6 +77,8 @@ function App() {
               />
             }
           />
+          <Route path={appRedir.signout} element={<Signout />} />
+          <Route path={appRedir.delete} element={<Delete />} />
           <Route path='/*' element={<Error404 />} />
         </Routes>
       </div>

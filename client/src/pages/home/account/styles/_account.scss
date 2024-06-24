@@ -1,0 +1,75 @@
+@import '_accountUp.scss';
+
+.account_container {
+  width: 600px;
+  height: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  border-radius: 20px;
+  background-color: $color_pal1_pink3;
+  box-shadow: 1px 1px 5px 1px $color_pal1-pink3;
+
+  h1 {
+    margin: 15px 0 25px 0;
+  }
+
+  .section {
+    display: flex;
+    height: 40px;
+    padding: 5px;
+    align-items: center;
+
+    .section_name {
+      font-size: 1.1rem;
+      width: 130px;
+    }
+
+    .section_value {
+      width: 300px;
+      font-size: 1.1rem;
+      padding: 5px 20px;
+    }
+  }
+
+  .section_button {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+
+    button {
+      width: 300px;
+      height: 30px;
+      margin: 5px 0;
+      border: none;
+      font-size: 1rem;
+      border-radius: 8px;
+      color: $color_pal1-white;
+      box-shadow: 1px 1px 5px 1px $color_pal1-yellow1;
+      background-color: $color_pal1-blue2;
+      cursor: pointer;
+    }
+  }
+
+  .section2 {
+    margin-top: 20px;
+    .section_plus {
+      display: flex;
+      padding: 5px;
+      align-items: center;
+      justify-content: right;
+    }
+
+    .section_name {
+      font-size: 0.9rem;
+      padding: 0 5px 0 0;
+    }
+
+    .section_value {
+      font-size: 0.9rem;
+    }
+  }
+}

@@ -14,7 +14,7 @@ const Home = ({openAccount, openProfile, openChat, openSearch}: {
         <div className='statistic_container'>
           <DisplaySmallStats />
         </div>
-        <div className='body_container'>
+        <div className='home_body_container'>
           <DisplayBody
             openAccount={openAccount}
             openProfile={openProfile}

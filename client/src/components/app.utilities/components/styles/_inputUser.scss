@@ -13,13 +13,12 @@
     .input_user {
       width: 400px;
       height: 30px;
-      border: 1px solid $color_pal1_yellow2;
+      border: 1px solid $color_pal1_grey1;
       padding: 10px 5px 10px 30px;
-      border-radius: 15px;
+      border-radius: 10px;
       color: $color_pal1_white;
-      background-color: $color_pal1_yellow1;
       &::placeholder {
-        color: $color_pal1_yellow3;
+        color: $color_pal1_grey3;
       }
       &:focus {
         outline: none;

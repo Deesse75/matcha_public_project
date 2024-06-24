@@ -16,7 +16,7 @@ const InputEye = ({
   };
 
   return (
-    <div className='div_eye' onClick={handleClick}>
+    <div className='eye_container' onClick={handleClick}>
       {visiblePassword ? (
         <>
           <AiOutlineEye size={26} color='#020247' />

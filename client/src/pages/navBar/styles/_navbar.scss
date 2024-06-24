@@ -3,7 +3,12 @@
   height: 80px;
   display: flex;
   align-items: center;
-  background-color: $color_pal1_blue1;
+  background: rgb(2, 2, 71);
+  background: linear-gradient(
+    149deg,
+    rgba(2, 2, 71, 1) 35%,
+    hsl(240, 46%, 60%) 100%
+  );
   color: $color_pal1_white;
 
   .title {
@@ -23,20 +28,17 @@
   margin-right: 20px;
 
   .full_menu {
-
     button {
-      background-color: $color_pal1_blue1;
+      background-color: transparent;
       color: $color_pal1_white;
       border: none;
       font-size: 1.2rem;
       margin-right: 20px;
       cursor: pointer;
     }
-
   }
 
   .small_menu {
     display: none;
   }
 }
-

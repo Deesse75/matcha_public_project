@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react';
-import InputUser from '../../../components/app.utilities/components/InputUser';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   appRoute,
   appRedir,
 } from '../../../components/app.configuration/path.config';
 import { IoClose } from 'react-icons/io5';
+import { passwordValidation } from '../../../components/app.utilities/components/inputValidation';
+import InputEye from '../../../components/app.utilities/components/InputEye';
+import generate from '../../../components/app.utilities/components/generate';
 
 const ReinitPassword = ({
   email,
@@ -16,7 +18,7 @@ const ReinitPassword = ({
   setNotif: React.Dispatch<React.SetStateAction<string>>;
   setReinit: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const [isValidPassword, setIsValidPassword] = useState(false);
+  const refPassword = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const nav = useNavigate();
@@ -29,7 +31,7 @@ const ReinitPassword = ({
       );
       return;
     }
-    if (!isValidPassword) {
+    if (!passwordValidation(e.currentTarget.password.value)) {
       setMessage(
         "Le mot de passe est invalide, survolez les warnings pour plus d'informations",
       );
@@ -52,12 +54,19 @@ const ReinitPassword = ({
             email: email,
           }),
         });
-        const data = await response.json();
-        if (response.status !== 200) {
-          setNotif(data?.message || response.statusText);
+        if (!response.ok) {
+          setNotif(response.statusText);
           setReinit(false);
           return;
         }
+
+        const data = await response.json();
+        if (!data || !data.token) {
+          setNotif(response.statusText);
+          setReinit(false);
+          return;
+        }
+
         setNotif(data?.message || response.statusText);
         nav(appRedir.signin);
       } catch (error) {
@@ -70,34 +79,46 @@ const ReinitPassword = ({
 
   return (
     <>
-      <div className='change_password_container'>
+      <div className='reinit_container'>
         <div className='close'>
           <button
             onClick={() => {
               setReinit(false);
             }}
           >
-            <IoClose size={28} />
+            <IoClose size={28} style={{ color: '#020247' }} />
           </button>
         </div>
-        <div className='title'>
-          Veuillez renseigner votre nouveau mot de passe.
-        </div>
+        <h1 className='title'>Réinitialisation du mot de passe.</h1>
         <div className='message'>{message}</div>
-        <form onSubmit={handleSubmit}>
-          <InputUser
-            id='password2'
-            type='password'
-            placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
-            setIsValid={setIsValidPassword}
-          />
-          <input
-            className='input_submit'
-            type='submit'
-            name='submit'
-            id='submit'
-            value='Réinitialiser'
-          />
+        <form className='reinit_form' onSubmit={handleSubmit}>
+          <div className='input_password'>
+            <input
+              type='password'
+              name='password'
+              id='password'
+              ref={refPassword}
+              placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
+            />
+            <InputEye refInput={refPassword} />
+            <div
+              className='generate'
+              onClick={() => {
+                generate(refPassword);
+              }}
+            >
+              Random Pass
+            </div>
+          </div>
+
+          <div className='input_submit'>
+            <input
+              type='submit'
+              name='submit'
+              id='submit'
+              value='Mettre à jour'
+            />
+          </div>
         </form>
       </div>
     </>

@@ -48,7 +48,6 @@ const InputUser = ({ id, type, placeholder, setIsValid }: Props) => {
   return (
     <>
       <div className='input_user_container'>
-        <div className='input_container'>
           <input
           className='input_user'
             type={type}
@@ -100,7 +99,6 @@ const InputUser = ({ id, type, placeholder, setIsValid }: Props) => {
               </>
             )}
           </div>
-        </div>
       </div>
     </>
   );

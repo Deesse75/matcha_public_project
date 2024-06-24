@@ -23,8 +23,19 @@ const ValidateEmail = ({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: url }),
         });
+        if (!response.ok) {
+          setNotif(response.statusText);
+          nav(appRedir.errorInternal);
+          return;
+        }
+
         const data = await response.json();
-        setNotif(data?.message || response.statusText);
+        if (!data) {
+          setNotif(response.statusText);
+          nav(appRedir.errorInternal);
+          return;
+        }
+        setNotif(data.message);
         nav(appRedir.signin);
       } catch (error) {
         setNotif((error as Error).message);

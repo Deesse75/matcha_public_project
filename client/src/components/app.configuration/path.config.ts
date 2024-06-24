@@ -13,6 +13,8 @@ export const appRoute = {
   forgotPassword: `${PATH}/auth/forgot_password`,
   reinitPassword: `${PATH}/auth/reinit_password`,
   getMe: `${PATH}/user/get_me`,
+  signout: `${PATH}/user/signout`,
+  delete: `${PATH}/user/delete`,
   stats: `${PATH}/display/stats`,
   getList: `${PATH}/display/get_list`,
   getOneProfile: `${PATH}/display/get_one_profile`,
@@ -22,6 +24,8 @@ export const appRedir = {
   loading: '/',
   signin: '/connexion',
   signup: '/inscription',
+  signout: '/deconnexion',
+  delete: '/suppression',
   validateEmail: '/validation_email',
   resendEmail: '/renvoyer_lien_validation_email',
   forgotPassword: '/mot_de_passe_oublie',
@@ -30,7 +34,6 @@ export const appRedir = {
   getMe: '/données_utilisateur',
   initProfile: '/initialisation_profil',
   home: '/accueil',
-  signout: '/deconnexion',
 };
 
 export const bgc = [

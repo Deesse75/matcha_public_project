@@ -62,12 +62,20 @@ const ConfirmCode = ({
             email: email,
           }),
         });
-        const data = await response.json();
-        if (response.status !== 200) {
-          setNotif(data?.message || response.statusText);
+
+        if (!response.ok) {
+          setNotif(response.statusText);
           setCode(false);
           return;
         }
+
+        const data = await response.json();
+        if (!data || !data.token) {
+          setNotif(response.statusText);
+          setCode(false);
+          return;
+        }
+
         setReinit(true);
         setCode(false);
       } catch (error) {
