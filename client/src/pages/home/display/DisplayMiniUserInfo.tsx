@@ -1,23 +1,13 @@
-const DisplayMiniUserInfo = ({
-  username,
-  birthdate,
-  region,
-  gender,
-  orientation,
-}: {
-  username: string;
-  birthdate: string;
-  region: string;
-  gender: string;
-  orientation: string;
-}) => {
+import { ProfileType } from "./DisplayFullProfile";
+
+const DisplayMiniUserInfo = ({profile}: {profile: ProfileType} ) => {
   return (
     <>
     <div className="mini_user">
-      <div className=''>{username}</div>
-      <div className=''>{birthdate}</div>
-      <div className=''>{region}</div>
-      <div className=''>{`${gender}, ${orientation}`}</div>
+      <div className=''>{profile.username}</div>
+      <div className=''>{profile.birthdate}</div>
+      <div className=''>{profile.region}</div>
+      <div className=''>{`${profile.gender}, ${profile.orientation}`}</div>
     </div>
     </>
   );

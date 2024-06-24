@@ -2,43 +2,43 @@ import { useContext, useRef, useState, useEffect } from "react";
 import { LuSave } from "react-icons/lu";
 import Cookies from "js-cookie";
 import { appRoute } from "../../../components/app.configuration/path.config";
-import usernameValidation from "../../../components/app.utilities/components/inputValidation";
+import { nameValidation } from "../../../components/app.utilities/components/inputValidation";
 import { UserContext } from "../../../components/app.utilities/context/user.context";
 
-const UsernameUp = ({
+const LastnameUp = ({
   setMessage,
 }: {
   setMessage: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const me = useContext(UserContext);
-  const refUsername = useRef<HTMLInputElement>(null);
-  const [username, setUsername] = useState('');
+  const refLastname = useRef<HTMLInputElement>(null);
+  const [lastname, setLastname] = useState('');
 
   const handleClick = () => {
     setMessage('');
-    if (!refUsername.current?.value) {
+    if (!refLastname.current?.value) {
       setMessage('Le champ est vide');
       return;
     }
-    if (usernameValidation(refUsername.current.value)) {
-      setMessage("Le nom d'utilisateur n'est pas valide");
+    if (nameValidation(refLastname.current.value)) {
+      setMessage("Le nom n'est pas valide");
       return;
     }
-    setUsername(refUsername.current.value);
+    setLastname(refLastname.current.value);
   };
 
   useEffect(() => {
-    if (!username) return;
+    if (!lastname) return;
     const request = async () => {
       try {
-        const response = await fetch(appRoute.updateUsername, {
+        const response = await fetch(appRoute.updateLastname, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${Cookies.get('session')}`,
           },
           credentials: 'include',
-          body: JSON.stringify({ username: username }),
+          body: JSON.stringify({ lastname: lastname }),
         });
         if (!response.ok) {
           setMessage(response.statusText);
@@ -53,26 +53,26 @@ const UsernameUp = ({
           type: 'SET_USER_ON',
           payload: data.user,
         });
-        refUsername.current?.value && (refUsername.current.value = '');
+        refLastname.current?.value && (refLastname.current.value = '');
       } catch (error) {
         setMessage('Une erreur est survenue');
       }
     };
     request();
-  }, [username]);
+  }, [lastname]);
 
   return (
     <>
       <div className='section'>
-        <div className='name'>Pseudo</div>
-        <div className='current_value'>{me.user.username}</div>
+        <div className='name'>Nom</div>
+        <div className='current_value'>{me.user.lastname}</div>
         <input
           className='new_value'
           type='text'
-          name='username'
-          id='username'
-          placeholder="Nouveau pseudo"
-          ref={refUsername}
+          name='lastname'
+          id='lastname'
+          placeholder="Nouveau nom"
+          ref={refLastname}
         />
         <div className='save' onClick={handleClick}>
           <LuSave size={24} />
@@ -82,4 +82,4 @@ const UsernameUp = ({
   );
 };
 
-export default UsernameUp;
+export default LastnameUp;

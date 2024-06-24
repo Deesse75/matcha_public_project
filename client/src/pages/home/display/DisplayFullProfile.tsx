@@ -1,7 +1,26 @@
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { appRoute } from '../../../components/app.configuration/path.config';
+import Popularity from './smallStats/Popularity';
+import DisplayMiniUserInfo from './DisplayMiniUserInfo';
+import DisplayPhotos from './DisplayPhotos';
 
+export type ProfileType = {
+  id: string;
+  username: string;
+  birthdate: string;
+  gender: string;
+  orientation: string;
+  region: string;
+  tall: number;
+  physique: string;
+  diet: string;
+  popularity: number;
+  title: string;
+  bio: string;
+  pourcentFill: number;
+  lastConnection: string;
+}
 const DisplayFullProfile = ({ id }: { id: number }) => {
   const [message, setMessage] = useState('');
   const [profile, setProfile] = useState({
@@ -11,6 +30,7 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
     gender: '',
     orientation: '',
     region: '',
+    tall: 0,
     physique: '',
     diet: '',
     popularity: 0,
@@ -34,9 +54,13 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
             Authorization: `Bearer ${Cookies.get('session')}`,
           },
         });
+        if (!response.ok) {
+          setMessage(response.statusText);
+          return;
+        }
         const data = await response.json();
-        if (response.status !== 200) {
-          setMessage(data?.message || response.statusText);
+        if (!data) {
+          setMessage('Une erreur est survenue');
           return;
         }
         setProfile(data.profile);
@@ -51,7 +75,22 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
   return (
     <>
       <div className='display'>
-        CECI EST LE PROFIL DE 
+        <div className='display_top'>
+          <DisplayPhotos />
+          <DisplayMiniUserInfo profile={profile} />
+          <Popularity num={profile.popularity} />
+        </div>
+        {/* <div className='display_middle'>
+            <Bio />
+            <ProfilePlus />
+            <ProfileStats />
+        </div>
+        <div className='display_bottom'>
+          <LikeButton />
+          <ChatButton />
+          <BlockButton />
+          <NextButton />
+        </div> */}
         <div>{profile.username}</div>
       </div>
     </>

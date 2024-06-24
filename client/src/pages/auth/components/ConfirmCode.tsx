@@ -70,7 +70,7 @@ const ConfirmCode = ({
         }
 
         const data = await response.json();
-        if (!data || !data.token) {
+        if (!data) {
           setNotif(response.statusText);
           setCode(false);
           return;

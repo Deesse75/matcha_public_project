@@ -18,6 +18,13 @@ export const appRoute = {
   stats: `${PATH}/display/stats`,
   getList: `${PATH}/display/get_list`,
   getOneProfile: `${PATH}/display/get_one_profile`,
+  updateFirstname: `${PATH}/user/updateFirstname`,
+  updateLastname: `${PATH}/user/updateLastname`,
+  updateUsername: `${PATH}/user/updateUsername`,
+  updateEmail: `${PATH}/user/updateEmail`,
+  updateValideEmail: `${PATH}/user/updateValideEmail`,
+  updatePassword: `${PATH}/user/updatePassword`,
+  updateProfile: `${PATH}/user/updateProfile`,
 };
 
 export const appRedir = {

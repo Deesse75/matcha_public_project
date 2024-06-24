@@ -1,8 +1,8 @@
 import Popularity from './smallStats/Popularity';
 import DisplayMiniUserInfo from './DisplayMiniUserInfo';
-import { ProfileList } from '../lists/List';
+import { ListType } from '../../../components/app.utilities/context/list.context';
 
-const DisplaySmallProfile = ({ profile }: { profile: ProfileList }) => {
+const DisplaySmallProfile = ({ profile }: { profile: ListType }) => {
   return (
     <>
       <div className='small_profile'>
