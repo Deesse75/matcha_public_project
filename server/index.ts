@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import cors from 'cors';
 import validateEnv from './src/middleware/env.validation.js';
-import disconnect from './src/mysql/mysql.config.js';
+import disconnect, { createDatabase } from './src/mysql/mysql.config.js';
 
 const server = async () => {
   const app = express();
@@ -38,6 +38,8 @@ const server = async () => {
       ret = await connectDatabase();
     }
     console.log('Connected to MySQL');
+    if (await createDatabase()) console.log('Database created');
+    else console.log('Error creating database');
   } catch (error) {
     console.log('Error initializing MySQL:', error);
     process.exit(1);

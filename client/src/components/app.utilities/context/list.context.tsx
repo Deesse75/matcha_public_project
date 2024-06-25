@@ -1,35 +1,24 @@
 import { createContext, useState } from "react";
+import { MiniProfile } from "../../../pages/home/interfaces/profile.interfaces";
 
-export type ListType = {
-  id: number;
-  username: string;
-  birthdate: string;
-  region: string;
-  gender: string;
-  orientation: string;
-  title: string;
-  popularity: number;
-  photo: string;
-  lastConnection: string;
-};
 
-const ListInitial: ListType[] = [];
+const ListInitial: MiniProfile[] = [];
 
 export const ListContext = createContext<{
-  matchaList: ListType[];
-  setMatchaList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  viewerList: ListType[];
-  setViewerList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  likerList: ListType[];
-  setLikerList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  matchList: ListType[];
-  setMatchList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  visitedList: ListType[];
-  setVisitedList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  likedList: ListType[];
-  setLikedList: React.Dispatch<React.SetStateAction<ListType[]>>;
-  bannedList: ListType[];
-  setBannedList: React.Dispatch<React.SetStateAction<ListType[]>>;
+  matchaList: MiniProfile[];
+  setMatchaList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  viewerList: MiniProfile[];
+  setViewerList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  likerList: MiniProfile[];
+  setLikerList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  matchList: MiniProfile[];
+  setMatchList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  visitedList: MiniProfile[];
+  setVisitedList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  likedList: MiniProfile[];
+  setLikedList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
+  bannedList: MiniProfile[];
+  setBannedList: React.Dispatch<React.SetStateAction<MiniProfile[]>>;
 }>({
   matchaList: ListInitial,
   setMatchaList: () => {},
@@ -49,13 +38,13 @@ export const ListContext = createContext<{
 
 
 export const ListProvider = ({ children }: { children: React.ReactNode }) => {
-  const [matchaList, setMatchaList] = useState<ListType[]>(ListInitial);
-  const [viewerList, setViewerList] = useState<ListType[]>(ListInitial);
-  const [likerList, setLikerList] = useState<ListType[]>(ListInitial);
-  const [matchList, setMatchList] = useState<ListType[]>(ListInitial);
-  const [visitedList, setVisitedList] = useState<ListType[]>(ListInitial);
-  const [likedList, setLikedList] = useState<ListType[]>(ListInitial);
-  const [bannedList, setBannedList] = useState<ListType[]>(ListInitial);
+  const [matchaList, setMatchaList] = useState<MiniProfile[]>(ListInitial);
+  const [viewerList, setViewerList] = useState<MiniProfile[]>(ListInitial);
+  const [likerList, setLikerList] = useState<MiniProfile[]>(ListInitial);
+  const [matchList, setMatchList] = useState<MiniProfile[]>(ListInitial);
+  const [visitedList, setVisitedList] = useState<MiniProfile[]>(ListInitial);
+  const [likedList, setLikedList] = useState<MiniProfile[]>(ListInitial);
+  const [bannedList, setBannedList] = useState<MiniProfile[]>(ListInitial);
   return (
     <ListContext.Provider
       value={{

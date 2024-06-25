@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
 import DisplayFullProfile from '../display/DisplayFullProfile';
 import DisplaySmallProfile from '../display/DisplaySmallProfile';
-import { ListContext, ListType } from '../../../components/app.utilities/context/list.context';
+import { ListContext } from '../../../components/app.utilities/context/list.context';
+import { MiniProfile } from '../interfaces/profile.interfaces';
 
 const List = ({listName}: {listName: string}) => {
   const context = useContext(ListContext);
-  const list = context[listName as keyof typeof context] as ListType[];
+  const list = context[listName as keyof typeof context] as MiniProfile[];
   const [message, setMessage] = useState('');
   const [listIndex, setListIndex] = useState<number>(0);
   const [open, setOpen] = useState(false);
@@ -35,7 +36,7 @@ const List = ({listName}: {listName: string}) => {
                 setListIndex(index);
               }}
             >
-              <DisplaySmallProfile profile={item} />
+              <DisplaySmallProfile miniProfile={item} />
             </div>
           ))}
         </>

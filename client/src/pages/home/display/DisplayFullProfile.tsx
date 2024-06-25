@@ -4,41 +4,12 @@ import { appRoute } from '../../../components/app.configuration/path.config';
 import Popularity from './smallStats/Popularity';
 import DisplayMiniUserInfo from './DisplayMiniUserInfo';
 import DisplayPhotos from './DisplayPhotos';
+import { MiniProfile, fullProfileInitial, miniProfileInitial } from '../interfaces/profile.interfaces';
 
-export type ProfileType = {
-  id: string;
-  username: string;
-  birthdate: string;
-  gender: string;
-  orientation: string;
-  region: string;
-  tall: number;
-  physique: string;
-  diet: string;
-  popularity: number;
-  title: string;
-  bio: string;
-  pourcentFill: number;
-  lastConnection: string;
-}
 const DisplayFullProfile = ({ id }: { id: number }) => {
   const [message, setMessage] = useState('');
-  const [profile, setProfile] = useState({
-    id: '0',
-    username: '',
-    birthdate: '',
-    gender: '',
-    orientation: '',
-    region: '',
-    tall: 0,
-    physique: '',
-    diet: '',
-    popularity: 0,
-    title: '',
-    bio: '',
-    pourcentFill: 0,
-    lastConnection: '',
-  });
+  const [fullProfile, setFullProfile] = useState({ ...fullProfileInitial });
+  const [miniProfile, setMiniProfile] = useState<MiniProfile>({ ...miniProfileInitial });
 
   useEffect(() => {
     if (id <= 0) {
@@ -63,7 +34,19 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
           setMessage('Une erreur est survenue');
           return;
         }
-        setProfile(data.profile);
+        setFullProfile(data.fullProfile);
+        setMiniProfile({
+          id: fullProfile.id,
+          username: fullProfile.username,
+          birthdate: fullProfile.birthdate,
+          region: fullProfile.region,
+          gender: fullProfile.gender,
+          orientation: fullProfile.orientation,
+          title: fullProfile.title,
+          popularity: fullProfile.popularity,
+          photo1: fullProfile.photo1,
+          lastConnection: fullProfile.lastConnection,
+        })
       } catch (error) {
         setMessage((error as Error).message);
         return;
@@ -74,11 +57,14 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
 
   return (
     <>
+      <div className='message'>{message}</div>
       <div className='display'>
         <div className='display_top'>
           <DisplayPhotos />
-          <DisplayMiniUserInfo profile={profile} />
-          <Popularity num={profile.popularity} />
+          <DisplayMiniUserInfo
+            miniProfile={miniProfile}
+          />
+          <Popularity num={fullProfile.popularity} />
         </div>
         {/* <div className='display_middle'>
             <Bio />
@@ -91,7 +77,6 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
           <BlockButton />
           <NextButton />
         </div> */}
-        <div>{profile.username}</div>
       </div>
     </>
   );

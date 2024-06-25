@@ -16,5 +16,29 @@ services:
       - 8000:8000
     networks:
       - matcha
-    # depends_on:
-    #   - server
+    depends_on:
+      - server
+ server:
+    container_name: server
+    image: server
+    build:
+      context: ./server
+    restart: always
+    env_file:
+      - ./server/.env
+    ports:
+      - 8001:8001
+    networks:
+      - matcha
+    depends_on:
+      - mysql
+ mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    env_file:
+      - ./database/.env
+    ports:
+      - "3306:3306"
+    networks:
+      - matcha

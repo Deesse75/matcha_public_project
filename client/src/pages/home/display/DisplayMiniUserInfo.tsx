@@ -1,13 +1,13 @@
-import { ProfileType } from "./DisplayFullProfile";
+import { MiniProfile } from "../interfaces/profile.interfaces";
 
-const DisplayMiniUserInfo = ({profile}: {profile: ProfileType} ) => {
+const DisplayMiniUserInfo = ({miniProfile}: {miniProfile: MiniProfile} ) => {
   return (
     <>
     <div className="mini_user">
-      <div className=''>{profile.username}</div>
-      <div className=''>{profile.birthdate}</div>
-      <div className=''>{profile.region}</div>
-      <div className=''>{`${profile.gender}, ${profile.orientation}`}</div>
+      <div className=''>{miniProfile.username}</div>
+      <div className=''>{miniProfile.birthdate}</div>
+      <div className=''>{miniProfile.region}</div>
+      <div className=''>{`${miniProfile.gender}, ${miniProfile.orientation}`}</div>
     </div>
     </>
   );
