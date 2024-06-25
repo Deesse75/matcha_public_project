@@ -7,6 +7,7 @@ import disconnect, { initializeDatabase } from './src/mysql/mysql.config.js';
 import { firstRequest } from './src/app/init.services.js';
 import isConnectDb from './src/middleware/mysql.validation.js';
 import { matchaError } from './src/app/matcha_error.js';
+import { authRouter } from './src/auth/auth.route.js';
 
 const server = async () => {
   const app = express();
@@ -50,19 +51,15 @@ const server = async () => {
   //routes
   app.get('/init', async (req: Request, res: Response) => {
     try {
-      if ((await isConnectDb()) || (await initializeDatabase())) {
-        return res.json({ IP: req.ip?.split(':')[3] });
-      }
-      return res.status(500).json({
-        message: 'Le base de données est temporairement indisponible',
-      });
+      if (await isConnectDb()) await initializeDatabase();
     } catch (error) {
       return res.status(500).json({
-        message: 'Une erreur est survenue lors de la connexion au server',
+        message: 'Une erreur est survenue',
       });
     }
+      return res.status(200).json({ ip: req.ip?.split(':')[3] });
   });
-  // app.use('/auth', authRouter);
+  app.use('/auth', authRouter);
   // app.use('/user', userRouter);
   // app.use('/display', displayRouter);
   app.use('/*', (req: Request, res: Response) => {

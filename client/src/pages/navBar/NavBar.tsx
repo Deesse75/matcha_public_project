@@ -16,7 +16,7 @@ const NavBar = ({
   setOpenSearch: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const nav = useNavigate();
-  const [menu, setMenu] = useState(true);
+  const [menu, setMenu] = useState(false);
 
   useEffect(() => {
     if (Cookies.get('session')) setMenu(true);

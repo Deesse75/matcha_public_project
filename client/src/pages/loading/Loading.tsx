@@ -11,13 +11,10 @@ const Loading = ({
   setNotif: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const nav = useNavigate();
-  const [matchaOn, setMatchaOn] = useState(false);
   const [url, setUrl] = useState('');
-  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     Cookies.remove('matchaOn');
-    setReset(true);
     const request = async () => {
       try {
         const response = await fetch(appRoute.init);
@@ -26,20 +23,17 @@ const Loading = ({
           nav(appRedir.errorServer);
           return;
         }
-        console.log('Response', response);
-
         const data = await response.json();
-        console.log('DATA Loading: ', data);
         if (!data) {
           setNotif(response.statusText);
           nav(appRedir.errorInternal);
           return;
         }
-        if (data.ip) Cookies.set('IP', data.ip, { expires: 1 });
         Cookies.set('matchaOn', '35135435sdfg64643gerer1334634343s54d654', {
           expires: 1,
         });
-        setMatchaOn(true);
+        Cookies.set('IP', data.ip, { expires: 1 });
+        Cookies.get('seesion') ? nav(appRedir.getMe) : nav(appRedir.signin)
       } catch (error) {
         setNotif((error as Error).message);
         nav(appRedir.errorInternal);
@@ -51,7 +45,6 @@ const Loading = ({
 
   // Get position navigator
   useEffect(() => {
-    if (!matchaOn || !reset) return;
     const getUrl = async () => {
       try {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -67,16 +60,16 @@ const Loading = ({
       }
     };
     getUrl();
-  }, [matchaOn, reset]);
+  }, []);
 
   // Get geolocation
   useEffect(() => {
-    if (!url || !reset) return;
+    if (!url) return;
     const request = async () => {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          //set geoloc by IP ************************************
+          //set geoloc by IP ****************************************************
           return;
         }
         const data = await response.json();
@@ -91,7 +84,7 @@ const Loading = ({
       }
     };
     request();
-  }, [url, reset]);
+  }, [url]);
   return (
     <>
       <IsLoading />
