@@ -8,5 +8,5 @@ RUN npm install
 
 COPY . .
 
-ENTRYPOINT [ "sh", "start.sh" ]
+ENTRYPOINT [ "sleep 20", "sh", "start.sh" ]
 

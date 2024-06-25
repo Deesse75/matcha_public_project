@@ -1,10 +1,12 @@
 import express, { Request, Response } from 'express';
-import connectDatabase from './src/mysql/mysql.init.js';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import cors from 'cors';
 import validateEnv from './src/middleware/env.validation.js';
-import disconnect, { createDatabase } from './src/mysql/mysql.config.js';
+import disconnect, { initializeDatabase } from './src/mysql/mysql.config.js';
+import { firstRequest } from './src/app/init.services.js';
+import isConnectDb from './src/middleware/mysql.validation.js';
+import { matchaError } from './src/app/matcha_error.js';
 
 const server = async () => {
   const app = express();
@@ -32,16 +34,12 @@ const server = async () => {
   app.use(cors(corsOptions));
 
   //connect to database
-  let ret: boolean = false;
   try {
-    while (!ret) {
-      ret = await connectDatabase();
-    }
-    console.log('Connected to MySQL');
-    if (await createDatabase()) console.log('Database created');
-    else console.log('Error creating database');
+    if (!(await initializeDatabase()))
+      console.log('Error while initializing MySQL');
+    else console.log('Connected to MySQL');
   } catch (error) {
-    console.log('Error initializing MySQL:', error);
+    console.log('Error while initializing MySQL: ', error);
     process.exit(1);
   }
 
@@ -50,21 +48,52 @@ const server = async () => {
   });
 
   //routes
+  app.get('/init', async (req: Request, res: Response) => {
+    try {
+      if ((await isConnectDb()) || (await initializeDatabase())) {
+        return res.json({ IP: req.ip?.split(':')[3] });
+      }
+      return res.status(500).json({
+        message: 'Le base de données est temporairement indisponible',
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Une erreur est survenue lors de la connexion au server',
+      });
+    }
+  });
+  // app.use('/auth', authRouter);
+  // app.use('/user', userRouter);
+  // app.use('/display', displayRouter);
+  app.use('/*', (req: Request, res: Response) => {
+    res.status(404).json({ message: 'Route not found' });
+  });
 
-  
   //Disconnect if server is stopped with SIGINT or SIGTERM
   process.on('SIGINT', () => {
-    disconnect();
+    try {
+      disconnect();
+      console.log('MySQL was disconnected');
+    } catch (error) {
+      console.error('MySQL was not properly disconnected: ', error);
+      process.exit(1);
+    }
     process.exit(0);
   });
 
   process.on('SIGTERM', () => {
-    disconnect();
+    try {
+      disconnect();
+      console.log('MySQL was disconnected');
+    } catch (error) {
+      console.error('MySQL was not properly disconnected: ', error);
+      process.exit(1);
+    }
     process.exit(0);
   });
 };
 
 server().catch((error) => {
-  console.error(error);
+  console.error('Error server: ', error);
   process.exit(1);
 });

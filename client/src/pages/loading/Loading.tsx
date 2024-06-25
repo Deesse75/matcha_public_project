@@ -15,32 +15,34 @@ const Loading = ({
   const [url, setUrl] = useState('');
   const [reset, setReset] = useState(false);
 
-  // Verify if server is on
   useEffect(() => {
     Cookies.remove('matchaOn');
-    Cookies.remove('Geoloc');
-    Cookies.remove('IP');
-    //a supprimer *********************************************
-    Cookies.set('matchaOn', 'Matcha', { expires: 1 });
-    nav(appRedir.signin);
-    return;
-    //a supprimer *********************************************
     setReset(true);
     const request = async () => {
       try {
         const response = await fetch(appRoute.init);
-        const data = await response.json();
-        if (response.status !== 200) {
-          setNotif(data.message || response.statusText);
+        if (!response.ok) {
+          setNotif(response.statusText);
           nav(appRedir.errorServer);
           return;
         }
+        console.log('Response', response);
+
+        const data = await response.json();
+        console.log('DATA Loading: ', data);
+        if (!data) {
+          setNotif(response.statusText);
+          nav(appRedir.errorInternal);
+          return;
+        }
         if (data.ip) Cookies.set('IP', data.ip, { expires: 1 });
-        Cookies.set('matchaOn', 'Matcha', { expires: 1 });
+        Cookies.set('matchaOn', '35135435sdfg64643gerer1334634343s54d654', {
+          expires: 1,
+        });
         setMatchaOn(true);
       } catch (error) {
         setNotif((error as Error).message);
-        nav(appRedir.errorServer);
+        nav(appRedir.errorInternal);
         return;
       }
     };

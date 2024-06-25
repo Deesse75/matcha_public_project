@@ -4,7 +4,7 @@ const PATH = `http://${HOST}:${PORT}`;
 
 export const appRoute = {
   geoloc: 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&',
-  init: `${PATH}/app/init`,
+  init: `${PATH}/init`,
   signin: `${PATH}/auth/signin`,
   signup: `${PATH}/auth/signup`,
   validateEmail: `${PATH}/auth/validate_email`,

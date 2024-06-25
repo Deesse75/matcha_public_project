@@ -1,0 +1,48 @@
+export const userSchema = ` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    emailCode INT DEFAULT 0,
+    emailCertified BOOLEAN DEFAULT FALSE,
+    hashedPassword VARCHAR(255) NOT NULL,
+    passwordCode INT DEFAULT 0,
+    birthdate DATE,
+    gender VARCHAR(200),
+    orientation VARCHAR(200),
+    region VARCHAR(200),
+    tall INT default 0,
+    physique VARCHAR(100),
+    diet TEXT,
+    popularity INT DEFAULT 0,
+    photo1 LONGBLOB,
+    photo2 LONGBLOB,
+    photo3 LONGBLOB,
+    photo4 LONGBLOB,
+    photo5 LONGBLOB,
+    title VARCHAR(100),
+    bio TEXT,
+    pourcentFilled INT DEFAULT 0,
+    lastConnection TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    deletedAt TIMESTAMP DEFAULT NULL
+)`;
+
+export const listSchema = ` (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    userSenderId INT NOT NULL,
+    userReceiverId INT NOT NULL,
+    statutLike Boolean DEFAULT FALSE,
+    statutView Boolean DEFAULT FALSE,
+    statutMatch Boolean DEFAULT FALSE,
+    statutVisited Boolean DEFAULT FALSE,
+    statutChat Boolean DEFAULT FALSE,
+    statutBlock Boolean DEFAULT FALSE,
+    noted BOOLEAN DEFAULT FALSE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userSenderId) REFERENCES User(id) ON DELETE CASCADE
+)`;
+
