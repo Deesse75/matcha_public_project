@@ -2,12 +2,11 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import cors from 'cors';
-import validateEnv from './src/middleware/env.validation.js';
-import disconnect, { initializeDatabase } from './src/mysql/mysql.config.js';
-import { firstRequest } from './src/app/init.services.js';
-import isConnectDb from './src/middleware/mysql.validation.js';
-import { matchaError } from './src/app/matcha_error.js';
-import { authRouter } from './src/auth/auth.route.js';
+import validateEnv from './middleware/env.validation.js';
+import disconnect, { initializeDatabase } from './mysql/mysql.config.js';
+import { appRouter } from './app/app.route.js';
+import authRouter from './auth/auth.route.js';
+import userRouter from './user/user.route.js';
 
 const server = async () => {
   const app = express();
@@ -49,18 +48,9 @@ const server = async () => {
   });
 
   //routes
-  app.get('/init', async (req: Request, res: Response) => {
-    try {
-      if (await isConnectDb()) await initializeDatabase();
-    } catch (error) {
-      return res.status(500).json({
-        message: 'Une erreur est survenue',
-      });
-    }
-      return res.status(200).json({ ip: req.ip?.split(':')[3] });
-  });
+  app.use('/app', appRouter);
   app.use('/auth', authRouter);
-  // app.use('/user', userRouter);
+  app.use('/user', userRouter);
   // app.use('/display', displayRouter);
   app.use('/*', (req: Request, res: Response) => {
     res.status(404).json({ message: 'Route not found' });

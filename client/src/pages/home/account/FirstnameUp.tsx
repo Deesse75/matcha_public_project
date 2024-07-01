@@ -4,27 +4,21 @@ import { UserContext } from '../../../components/app.utilities/context/user.cont
 import { nameValidation } from '../../../components/app.utilities/components/inputValidation';
 import { appRoute } from '../../../components/app.configuration/path.config';
 import Cookies from 'js-cookie';
+import { OpenPageContext } from '../../../components/app.utilities/context/open.context';
 
-const FirstnameUp = ({
-  setMessage,
-}: {
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const FirstnameUp = () => {
   const me = useContext(UserContext);
+  const setNotif = useContext(OpenPageContext).setNotif;
   const refFirstname = useRef<HTMLInputElement>(null);
   const [firstname, setFirstname] = useState('');
 
   const handleClick = () => {
-    setMessage('');
-    if (!refFirstname.current?.value) {
-      setMessage('Le champ est vide');
+    if (!refFirstname.current?.value) return;
+    if (nameValidation(refFirstname.current?.value)) {
+      setNotif("Le prénom n'est pas valide");
       return;
     }
-    if (nameValidation(refFirstname.current.value)) {
-      setMessage("Le prénom n'est pas valide");
-      return;
-    }
-    setFirstname(refFirstname.current.value);
+    setFirstname(refFirstname.current?.value);
   };
 
   useEffect(() => {
@@ -37,25 +31,20 @@ const FirstnameUp = ({
             'Content-Type': 'application/json',
             Authorization: `Bearer ${Cookies.get('session')}`,
           },
-          credentials: 'include',
           body: JSON.stringify({ firstname: firstname }),
         });
-        if (!response.ok) {
-          setMessage(response.statusText);
-          return;
-        }
         const data = await response.json();
-        if (!data) {
-          setMessage('Une erreur est survenue');
+        if (response.status !== 200) {
+          setFirstname('');
+          setNotif(data.message || response.statusText);
           return;
         }
-        me.userDispatch({
-          type: 'SET_USER_ON',
-          payload: data.user,
-        })
+        me.setUser(data);
+        setFirstname('');
         refFirstname.current?.value && (refFirstname.current.value = '');
       } catch (error) {
-        setMessage('Une erreur est survenue');
+        setFirstname('');
+        setNotif((error as Error).message);
       }
     };
     request();
@@ -63,7 +52,7 @@ const FirstnameUp = ({
 
   return (
     <>
-      <div className='section'>
+      <div className='section_up'>
         <div className='name'>Prénom</div>
         <div className='current_value'>{me.user.firstname}</div>
         <input

@@ -3,19 +3,17 @@ import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import InputEye from '../../components/app.utilities/components/InputEye';
 import usernameValidation, {
   passwordValidation,
 } from '../../components/app.utilities/components/inputValidation';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const Signin = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const Signin = () => {
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
   const refPassword = useRef(null);
   const [message, setMessage] = useState('');
   const [user, setUser] = useState({
@@ -64,19 +62,13 @@ const Signin = ({
           }),
         });
 
-        if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
-
         const data = await response.json();
-        if (!data || !data.token) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
+        if (response.status !== 200 || !data.token) {
+          setNotif(data.message || response.statusText);
+          setUser({ username: '', password: '' });
+          if (data.redir) nav(data.redir);
           return;
         }
-
         Cookies.set('session', data.token, { expires: 1 });
         nav(appRedir.getMe);
       } catch (error) {
@@ -89,16 +81,17 @@ const Signin = ({
 
   return (
     <>
-      <div className='signin_container'>
+      <div className='container'>
         <h1 className='title'>Connexion</h1>
         <div className='message'>{message}</div>
 
-        <form className='signin_form' onSubmit={handleSubmit}>
+        <form className='auth_form' onSubmit={handleSubmit}>
           <div className='input_text'>
             <input
               type='text'
               name='username'
               id='username'
+              autoComplete='username'
               placeholder="Nom d'utilisateur"
             />
           </div>
@@ -123,10 +116,10 @@ const Signin = ({
             />
           </div>
         </form>
-        <div className='signin_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signup}>S'inscrire</Link>
         </div>
-        <div className='signin_link'>
+        <div className='auth_link'>
           <Link to={appRedir.forgotPassword}>Mot de passe oublié</Link>
         </div>
       </div>

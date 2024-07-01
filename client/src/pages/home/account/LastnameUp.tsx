@@ -5,26 +5,20 @@ import { appRoute } from "../../../components/app.configuration/path.config";
 import { nameValidation } from "../../../components/app.utilities/components/inputValidation";
 import { UserContext } from "../../../components/app.utilities/context/user.context";
 
-const LastnameUp = ({
-  setMessage,
-}: {
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const LastnameUp = () => {
   const me = useContext(UserContext);
   const refLastname = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState('');
   const [lastname, setLastname] = useState('');
 
   const handleClick = () => {
     setMessage('');
-    if (!refLastname.current?.value) {
-      setMessage('Le champ est vide');
-      return;
-    }
-    if (nameValidation(refLastname.current.value)) {
+    if (!refLastname.current?.value) return;
+    if (nameValidation(refLastname.current?.value)) {
       setMessage("Le nom n'est pas valide");
       return;
     }
-    setLastname(refLastname.current.value);
+    setLastname(refLastname.current?.value);
   };
 
   useEffect(() => {
@@ -37,25 +31,20 @@ const LastnameUp = ({
             'Content-Type': 'application/json',
             Authorization: `Bearer ${Cookies.get('session')}`,
           },
-          credentials: 'include',
           body: JSON.stringify({ lastname: lastname }),
         });
-        if (!response.ok) {
-          setMessage(response.statusText);
-          return;
-        }
         const data = await response.json();
-        if (!data) {
-          setMessage('Une erreur est survenue');
+        if (response.status !== 200) {
+          setLastname('');
+          setMessage('Une erreur interne est survenue');
           return;
         }
-        me.userDispatch({
-          type: 'SET_USER_ON',
-          payload: data.user,
-        });
+        me.setUser(data);
+        setLastname('');
         refLastname.current?.value && (refLastname.current.value = '');
       } catch (error) {
-        setMessage('Une erreur est survenue');
+        setLastname('');
+        setMessage('Une erreur interne est survenue');
       }
     };
     request();
@@ -63,7 +52,7 @@ const LastnameUp = ({
 
   return (
     <>
-      <div className='section'>
+      <div className='section_up'>
         <div className='name'>Nom</div>
         <div className='current_value'>{me.user.lastname}</div>
         <input
@@ -71,7 +60,7 @@ const LastnameUp = ({
           type='text'
           name='lastname'
           id='lastname'
-          placeholder="Nouveau nom"
+          placeholder='Nouveau nom'
           ref={refLastname}
         />
         <div className='save' onClick={handleClick}>

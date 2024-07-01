@@ -4,7 +4,8 @@ export type CreateUser = {
   lastname: string;
   username: string;
   email: string;
-  hashpass: string;
+  emailCode: number;
+  hashedPassword: string;
 };
 
 
@@ -17,7 +18,7 @@ export type MysqlUserType = {
     emailCode: number;
     emailCertified: boolean;
     hashedPassword: string;
-    passwordCode: number;
+    passwordCode: string;
     birthdate: Date;
     gender: string;
     orientation: string;

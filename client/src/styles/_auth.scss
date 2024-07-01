@@ -1,8 +1,10 @@
-.signin_container {
+.container {
   width: 600px;
-  height: 400px;
   display: flex;
   flex-direction: column;
+  margin: auto;
+  padding: 15px;
+  position: relative;
   color: $color_pal1_blue1;
   border-radius: 15px;
   box-shadow: 1px 1px 5px 1px $color_pal1_grey3;
@@ -11,16 +13,17 @@
     width: 100%;
     height: 50px;
     display: flex;
+    font-size: 2.2rem;
+    color: $color_pal1_blue1;
     justify-content: center;
-    font-size: 2.5rem;
-    margin: 20px auto 5px auto;
+    font-family: 'Playwrite NG Modern', sans-serif;
+    margin: 20px auto 0 auto;
   }
 
   .message {
     width: 70%;
     height: 50px;
     display: flex;
-    align-items: center;
     justify-content: center;
     color: $color_red1;
     font-size: 1.1rem;
@@ -29,10 +32,13 @@
     box-sizing: border-box;
   }
 
-  .signin_form {
+  .auth_form,
+  .signup_form,
+  .auth_form_mini {
     width: 100%;
     height: 200px;
     display: flex;
+    padding: 3px;
     flex-direction: column;
 
     .input_text,
@@ -57,6 +63,9 @@
     }
 
     .input_password {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       .eye_container {
         width: 10%;
         height: 100%;
@@ -64,6 +73,18 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+      }
+
+      .generate {
+        height: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        padding: 0 3px;
+        margin: 0 5px 0 0;
+        cursor: pointer;
+        background-color: $color_pal1_grey3;
       }
     }
 
@@ -87,16 +108,24 @@
     }
   }
 
-    .signin_link {
-      width: 80%;
-      display: flex;
-      margin: 0 auto;
+  .signup_form {
+    height: 370px;
+  }
 
-      a {
-        color: $color_pal1_blue1;
-        text-decoration: none;
-        font-size: 1.1rem;
-        cursor: pointer;
-      }
+  .auth_form_mini {
+    height: 130px;
+  }
+
+  .auth_link {
+    width: 80%;
+    display: flex;
+    margin: 2px auto;
+
+    a {
+      color: $color_pal1_blue1;
+      text-decoration: none;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
+  }
 }

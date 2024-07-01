@@ -1,4 +1,4 @@
-import { transporter } from "./mailer.config.js";
+import { transporter } from './mailer.config.js';
 
 export const sendEmail = (to: string, subject: string, text: string): void => {
   transporter.sendMail(
@@ -24,19 +24,6 @@ export const validateEmailText = (token: string) => {
   <p><a href="${process.env.VALIDATE_ROUTE}?token=${token}">Valider mon compte</a></p>
   </br>
   <p>Si vous n'avez pas créé de compte sur Matcha, veuillez ignorer cet email.</p>
-  </br>
-  <p>L'équipe Matcha</p>
-  `;
-};
-
-export const forgotPasswordText = (token: string) => {
-  return `
-  <p>Bonjour,</p>
-  </br>
-  <p>Afin de réinitialiser votre mot de passe, veuillez cliquer sur le lien ci-dessous:</p>
-  <p><a href="${process.env.RESET_ROUTE}?token=${token}">Réinitialiser mon mot de passe</a></p>
-  </br>
-  <p>Si vous n'avez pas demandé de réinitialisation de mot de passe, veuillez ignorer cet email.</p>
   </br>
   <p>L'équipe Matcha</p>
   `;

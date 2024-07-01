@@ -1,0 +1,26 @@
+export type UserType = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  username: string;
+  email: string;
+  birthdate: string;
+  gender: string;
+  orientation: string;
+  region: string;
+  tall: number;
+  physique: string;
+  diet: string;
+  popularity: number;
+  photo1: string;
+  photo2: string;
+  photo3: string;
+  photo4: string;
+  photo5: string;
+  title: string;
+  biography: string;
+  pourcentFilled: number;
+  lastConnection: string;
+  createdAt: string;
+  updatedAt: string;
+};

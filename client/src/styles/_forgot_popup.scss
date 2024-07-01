@@ -1,0 +1,146 @@
+.auth_popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 570px;
+  height: 280px;
+  top: 5;
+  left: 5;
+  color: $color_pal1_blue1;
+  padding: 15px;
+  margin: 0;
+  background-color: $color_pal1_blue1;
+
+  .close {
+    width: 90%;
+    position: absolute;
+    display: flex;
+    justify-content: right;
+
+    button {
+      border: none;
+      cursor: pointer;
+      color: $color_pal1_yellow3;
+      background-color: transparent;
+    }
+  }
+
+  .title {
+    margin: 20px auto 10px auto;
+    font-size: 1.5rem;
+    color: $color_pal1_white;
+  }
+
+  .message {
+    width: 70%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    color: $color_pal1_white;
+    font-size: 1.1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  .auth_form_popup {
+    width: 100%;
+    .number {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .input_number {
+        width: 60px;
+        height: 80px;
+        margin: 10px;
+        border-radius: 10px;
+        border: 1px solid $color_pal1_yellow3;
+        background-color: $color_pal1_yellow3;
+        color: $color_pal1_yellow3;
+
+        input {
+          width: 100%;
+          height: 100%;
+          border: none;
+          text-align: center;
+          background-color: transparent;
+          color: $color_pal1_blue1;
+          font-size: 1.5rem;
+          text-align: center;
+        }
+      }
+    }
+
+    .input_password {
+      width: 90%;
+      height: 50px;
+      display: flex;
+      margin: 5px auto;
+      justify-content: center;
+      align-items: center;
+      border-radius: 8px;
+      background-color: white;
+      border: 1px solid $color_pal1_grey3;
+
+      input {
+        width: 90%;
+        height: 100%;
+        padding: 0 20px;
+        font-size: 1.1rem;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+      }
+
+      .eye_container {
+        width: 10%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      .generate {
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        padding: 0 3px;
+        margin: 0 5px 0 0;
+        cursor: pointer;
+        background-color: $color_pal1_grey3;
+      }
+    }
+
+    .input_submit {
+      width: 90%;
+      height: 35px;
+      margin: 20px auto 40px auto;
+      display: flex;
+      padding: 010px;
+      border-radius: 15px;
+      color: $color_pal1_blue1;
+      font-size: 1.1rem;
+      border: 1px solid $color_pal1_yellow3;
+      background-color: $color_pal1_yellow2;
+      cursor: pointer;
+      &:hover {
+        background-color: $color_pal1_yellow3;
+        transition: all 0.2s;
+      }
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background-color: transparent;
+        color: $color_pal1_blue1;
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

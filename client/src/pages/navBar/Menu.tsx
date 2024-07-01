@@ -1,30 +1,29 @@
 import { IoMenu } from 'react-icons/io5';
 import { FaSearch } from 'react-icons/fa';
+import { useContext } from 'react';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const Menu = ({
-  setOpenAccount,
-  setOpenProfile,
-  setOpenChat,
-  setOpenSearch,
-}: {
-  setOpenAccount: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenProfile: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenSearch: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const handleClick = (value: string) => {
-    const values = ['account', 'profile', 'chat', 'search'];
-    const setters = [
-      setOpenAccount,
-      setOpenProfile,
-      setOpenChat,
-      setOpenSearch,
-    ];
-    for (const word of values) {
-      if (word === value) {
-        setters[values.indexOf(word)](true);
+const Menu = () => {
+  const pages = ['accueil', 'account', 'profile', 'chat', 'search'];
+  const setter = useContext(OpenPageContext);
+  const setPages = [
+    setter.setOpenHome,
+    setter.setOpenAccount,
+    setter.setOpenProfile,
+    setter.setOpenChat,
+    setter.setOpenSearch,
+  ];
+
+  const handleClick = (selectedPage: string) => {
+    for (const str of pages) {
+      if (str === selectedPage) {
+        setPages[pages.indexOf(str)](true);
+        setter.setOpenAccountUp(false);
+        setter.setOpenProfileUp(false);
+        setter.setOpenEmailUp(false);
+        setter.setOpenPasswordUp(false);
       } else {
-        setters[values.indexOf(word)](false);
+        setPages[pages.indexOf(str)](false);
       }
     }
   };

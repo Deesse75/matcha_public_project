@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { appRedir } from '../../components/app.configuration/path.config';
 import IsLoading from '../../components/app.utilities/components/IsLoading';
 import { appRoute } from '../../components/app.configuration/path.config';
 import Cookies from 'js-cookie';
+import { useState, useEffect, useContext } from 'react';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const Loading = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const Loading = () => {
   const nav = useNavigate();
   const [url, setUrl] = useState('');
+  const setNotif = useContext(OpenPageContext).setNotif;
 
   useEffect(() => {
     Cookies.remove('matchaOn');
@@ -19,23 +17,18 @@ const Loading = ({
       try {
         const response = await fetch(appRoute.init);
         if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorServer);
-          return;
-        }
-        const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
+          setNotif(`Une erreur interne est survenue: ${response.statusText}`);
           nav(appRedir.errorInternal);
           return;
         }
+        const data = await response.json();
         Cookies.set('matchaOn', '35135435sdfg64643gerer1334634343s54d654', {
           expires: 1,
         });
-        Cookies.set('IP', data.ip, { expires: 1 });
-        Cookies.get('seesion') ? nav(appRedir.getMe) : nav(appRedir.signin)
+        if (data.ip) Cookies.set('IP', data.ip, { expires: 1 });
+        Cookies.get('session') ? nav(appRedir.getMe) : nav(appRedir.signin);
       } catch (error) {
-        setNotif((error as Error).message);
+        setNotif(`Une erreur est survenue: ${(error as Error).message}`);
         nav(appRedir.errorInternal);
         return;
       }
@@ -93,3 +86,4 @@ const Loading = ({
 };
 
 export default Loading;
+

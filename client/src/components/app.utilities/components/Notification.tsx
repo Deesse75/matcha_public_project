@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { IoClose } from "react-icons/io5";
+import { useEffect } from 'react';
+import { IoClose } from 'react-icons/io5';
 
 const Notification = ({
   notif,
@@ -8,7 +8,6 @@ const Notification = ({
   notif: string;
   setNotif: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-
   useEffect(() => {
     if (!notif) return;
     const notifCount = setTimeout(() => {
@@ -30,9 +29,9 @@ const Notification = ({
                 setNotif('');
               }}
             >
-              <IoClose color='white' size={28} />
+              <IoClose size={20} />
             </div>
-            {notif}
+            <div className='notif_text'>{notif}</div>
           </div>
         </div>
       )}

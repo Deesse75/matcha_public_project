@@ -3,16 +3,14 @@ import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { emailValidation } from '../../components/app.utilities/components/inputValidation';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const ResendLinkEmail = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const ResendLinkEmail = () => {
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
@@ -49,20 +47,14 @@ const ResendLinkEmail = ({
           }),
         });
 
-        if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
-
         const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
+        if (response.status !== 200) {
+          setNotif(data.message || response.statusText);
+          setEmail('');
+          if (data.redir) nav(data.redir);
           return;
         }
-
-        setNotif(data?.message || response.statusText);
+        setNotif(data.message);
         nav(appRedir.signin);
       } catch (error) {
         setNotif((error as Error).message);
@@ -74,13 +66,11 @@ const ResendLinkEmail = ({
 
   return (
     <>
-      <div className='resend_container'>
-        <h1 className='title'>
-          Recevoir un nouveau lien de confirmation d'email
-        </h1>
+      <div className='container'>
+        <h1 className='title'>Validation d'adresse email</h1>
         <div className='message'>{message}</div>
 
-        <form className='resend_form' onSubmit={handleSubmit}>
+        <form className='auth_form' onSubmit={handleSubmit}>
           <div className='input_text'>
             <input
               type='email'
@@ -99,10 +89,10 @@ const ResendLinkEmail = ({
             />
           </div>
         </form>
-        <div className='resend_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signin}>Se connecter</Link>
         </div>
-        <div className='resend_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signup}>S'inscrire</Link>
         </div>
       </div>

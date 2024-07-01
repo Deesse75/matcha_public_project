@@ -3,45 +3,88 @@ body {
   padding: 0;
   font-family: serif;
   font-size: 1rem;
-}
-
-.app_container {
   width: 100%;
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  height: 100%;
 }
 
-.notif_container {
-  position: absolute;
-  top: 10px;
-  width: 98%;
-  margin: 0 auto;
+.app {
+  width: 100%;
+  min-height: 100vh;
   display: flex;
-  .notification {
-    margin: 0 0 0 auto;
-    background-color: rgb(61, 61, 62);
-    color: $color_pal1_white;
-    padding: 5px 15px 15px 15px;
-    border-radius: 5px;
-    min-width: 200px;
-    max-width: 800px;
-    min-height: 50px;
-    font-size: 1.1rem;
-    z-index: 1000;
-    .close {
+  position: relative;
+  flex-direction: column;
+
+  .navbar {
+    width: 97%;
+    height: 40px;
+    margin: 30px auto 5px auto;
+    display: flex;
+    border-radius: 10px;
+    background: rgb(2, 2, 71);
+    background: linear-gradient(
+      149deg,
+      rgba(2, 2, 71, 1) 35%,
+      rgb(105, 105, 199) 100%
+    );
+    @import '_navbar.scss';
+  }
+  
+  .notif_container {
+    position: absolute;
+    top: px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: right;
+    .notification {
+      background: rgb(209, 209, 209);
+      padding: 5px 15px 10px 10px;
+      border-radius: 10px;
+      max-height: 50px;
+      z-index: 1000;
       display: flex;
-      justify-content: right;
-      cursor: pointer;
+      overflow: hidden;
+      flex-direction: column;
+      animation: slide 0.2s ease-in-out;
+      .close {
+        display: flex;
+        justify-content: right;
+        color: $color_pal1_pink1;
+        cursor: pointer;
+      }
+      .notif_text {
+        overflow: hidden;
+        padding: 0 25px 0 0;
+        color: $color_pal1_grey2;
+      }
     }
+  }
+
+  .routes {
+    width: 100%;
+    min-height: 80vh;
+    margin: 0;
+    display: flex;
+    @import '_loading.scss';
+    @import '_auth.scss';
+    @import '_forgot_popup.scss';
+    @import '_home.scss';
+  }
+
+  .footer {
+    width: 100%;
+    min-height: 100px;
+    background-color: $color_pal1_blue1;
+    color: $color_pal1_white;
   }
 }
 
-.footer {
-  width: 100%;
-  min-height: 100px;
-  background-color: $color_pal1_blue1;
-  color: $color_pal1_white;
+
+@keyframes slide {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 400px;
+  }
 }

@@ -60,7 +60,7 @@ const DisplayFullProfile = ({ id }: { id: number }) => {
       <div className='message'>{message}</div>
       <div className='display'>
         <div className='display_top'>
-          <DisplayPhotos />
+          {/* <DisplayPhotos /> */}
           <DisplayMiniUserInfo
             miniProfile={miniProfile}
           />

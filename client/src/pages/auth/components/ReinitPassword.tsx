@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   appRoute,
@@ -8,32 +8,32 @@ import { IoClose } from 'react-icons/io5';
 import { passwordValidation } from '../../../components/app.utilities/components/inputValidation';
 import InputEye from '../../../components/app.utilities/components/InputEye';
 import generate from '../../../components/app.utilities/components/generate';
+import { OpenPageContext } from '../../../components/app.utilities/context/open.context';
 
 const ReinitPassword = ({
   email,
-  setNotif,
   setReinit,
 }: {
   email: string;
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
   setReinit: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const refPassword = useRef<HTMLInputElement>(null);
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!e.currentTarget.password.value) {
       setMessage(
-        'Veuillez renseigner votre nouveau mot de passe ou utiliser le PassRandom pour en générer un automatiquement',
+        'Entrez votre nouveau mot de passe',
       );
       return;
     }
     if (!passwordValidation(e.currentTarget.password.value)) {
       setMessage(
-        "Le mot de passe est invalide, survolez les warnings pour plus d'informations",
+        "Le mot de passe est invalide",
       );
       return;
     }
@@ -50,24 +50,17 @@ const ReinitPassword = ({
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            password: password,
+            newPassword: password,
             email: email,
           }),
         });
-        if (!response.ok) {
-          setNotif(response.statusText);
-          setReinit(false);
-          return;
-        }
-
         const data = await response.json();
-        if (!data || !data.token) {
-          setNotif(response.statusText);
+        if (response.status !== 200){
+          setNotif(data.message || response.statusText);
           setReinit(false);
           return;
         }
-
-        setNotif(data?.message || response.statusText);
+        setNotif(data.message);
         nav(appRedir.signin);
       } catch (error) {
         setNotif((error as Error).message);
@@ -79,19 +72,19 @@ const ReinitPassword = ({
 
   return (
     <>
-      <div className='reinit_container'>
+      <div className='auth_popup'>
         <div className='close'>
           <button
             onClick={() => {
               setReinit(false);
             }}
           >
-            <IoClose size={28} style={{ color: '#020247' }} />
+            <IoClose size={28}/>
           </button>
         </div>
-        <h1 className='title'>Réinitialisation du mot de passe.</h1>
+        <h1 className='title'>Réinitialisation</h1>
         <div className='message'>{message}</div>
-        <form className='reinit_form' onSubmit={handleSubmit}>
+        <form className='auth_form_popup' onSubmit={handleSubmit}>
           <div className='input_password'>
             <input
               type='password'

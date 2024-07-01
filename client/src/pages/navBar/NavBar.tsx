@@ -4,17 +4,7 @@ import { appRedir } from '../../components/app.configuration/path.config';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-const NavBar = ({
-  setOpenAccount,
-  setOpenProfile,
-  setOpenChat,
-  setOpenSearch,
-}: {
-  setOpenAccount: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenProfile: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenChat: React.Dispatch<React.SetStateAction<boolean>>;
-  setOpenSearch: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const NavBar = () => {
   const nav = useNavigate();
   const [menu, setMenu] = useState(false);
 
@@ -33,17 +23,12 @@ const NavBar = ({
   return (
     <>
       <div className='navbar_container'>
-        <div className='title' onClick={handleClick}>
-          Matcha
+        <div className='navbar_container2'>
+          <div className='title' onClick={handleClick}>
+            Matcha
+          </div>
         </div>
-        {menu && (
-          <Menu
-            setOpenAccount={setOpenAccount}
-            setOpenProfile={setOpenProfile}
-            setOpenChat={setOpenChat}
-            setOpenSearch={setOpenSearch}
-          />
-        )}
+        {menu && <Menu />}
       </div>
     </>
   );

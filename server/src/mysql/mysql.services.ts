@@ -1,8 +1,5 @@
 import { mysqlDb } from './mysql.init.js';
-import {
-  CreateUser,
-  MysqlUserType,
-} from './mysql.interfaces.js';
+import { CreateUser, MysqlUserType } from './mysql.interfaces.js';
 import { updateUserQueries, updateUserType } from './mysql.utils.js';
 
 export async function createNewUser(user: CreateUser): Promise<void> {
@@ -15,17 +12,18 @@ export async function findUser(
   type: string,
   value: number | string,
 ): Promise<MysqlUserType | null> {
-  if (type !== "id" && type !== "email" && type !== "username") return null
-  const query = 'SELECT * FROM User WHERE ? = ?';
-  const values = [type, value];
-  await mysqlDb.query(query, values);
-  const [rows]: any = await mysqlDb.query(query, values);
+  let q: string;
+  if (!['id', 'email', 'username'].includes(type)) return null;
+  if (type === 'email') q = 'SELECT * FROM User WHERE email = ?';
+  else if (type === 'username') q = 'SELECT * FROM User WHERE username = ?';
+  else q = 'SELECT * FROM User WHERE id = ?';
+  const [rows]: any = await mysqlDb.query(q, value);
   return rows[0];
 }
 
-export async function UpdateUser(
+export async function updateUser(
   type: string,
-  value: string | number | boolean | Date,
+  value: string | number | boolean | Date | null,
   id: number,
 ): Promise<void> {
   updateUserType.map(async (item, index) => {
@@ -50,10 +48,9 @@ export const updateFilled = async (id: number): Promise<void> => {
     user.photo1 !== './avatar/default_avatar.jpg' ? (fillNum += 10) : null;
     user.title ? (fillNum += 10) : null;
     user.bio ? (fillNum += 10) : null;
-    UpdateUser('pourcentFilled', fillNum, id);
+    updateUser('pourcentFilled', fillNum, id);
   }
 };
-
 
 // export const findListOfLikers = async (id: number): Promise<> => {
 //   return null;

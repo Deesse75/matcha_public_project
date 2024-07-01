@@ -1,7 +1,8 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
@@ -13,7 +14,6 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "type": "module",
   "dependencies": {
     "argon2": "^0.40.3",
     "cookie-parser": "^1.4.6",

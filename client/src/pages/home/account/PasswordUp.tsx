@@ -3,12 +3,11 @@ import { LuSave } from 'react-icons/lu';
 import Cookies from 'js-cookie';
 import { appRoute } from '../../../components/app.configuration/path.config';
 import { passwordValidation } from '../../../components/app.utilities/components/inputValidation';
+import InputEye from '../../../components/app.utilities/components/InputEye';
+import generate from '../../../components/app.utilities/components/generate';
+import { FaRandom } from 'react-icons/fa';
 
-const PasswordUp = ({
-  setMessage,
-}: {
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const PasswordUp = () => {
   const refNewPassword = useRef<HTMLInputElement>(null);
   const refCurrentPassword = useRef<HTMLInputElement>(null);
   const [newPassword, setNewPassword] = useState('');
@@ -66,24 +65,38 @@ const PasswordUp = ({
 
   return (
     <>
-      <div className='section'>
+      <div className='section_up'>
         <div className='name'>Mot de passe</div>
-        <input
-          className='current_pass'
-          type='password'
-          name='password'
-          id='password'
-          placeholder='Entrez votre mot de passe actuel'
-          ref={refCurrentPassword}
-        />
-        <input
-          className='new_pass'
-          type='password'
-          name='password'
-          id='password'
-          placeholder='Entrez votre nouveau mot de passe'
-          ref={refNewPassword}
-        />
+        <div className='pass_section'>
+          <div className='pass'>
+            <input
+              type='password'
+              name='password'
+              id='password'
+              ref={refCurrentPassword}
+              placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
+            />
+            <InputEye refInput={refCurrentPassword} />
+          </div>
+          <div className='pass'>
+            <input
+              type='password'
+              name='password'
+              id='password'
+              ref={refNewPassword}
+              placeholder='&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;'
+            />
+            <div
+              className='generate'
+              onClick={() => {
+                generate(refNewPassword);
+              }}
+            >
+              <FaRandom size={18} />
+            </div>
+            <InputEye refInput={refNewPassword} />
+          </div>
+        </div>
         <div className='save' onClick={handleClick}>
           <LuSave size={24} />
         </div>

@@ -3,7 +3,7 @@ import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Cookies from 'js-cookie';
 import InputEye from '../../components/app.utilities/components/InputEye';
 import usernameValidation, {
@@ -12,13 +12,11 @@ import usernameValidation, {
   passwordValidation,
 } from '../../components/app.utilities/components/inputValidation';
 import generate from '../../components/app.utilities/components/generate';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const Signup = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const Signup = () => {
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
   const refPassword = useRef(null);
   const [message, setMessage] = useState('');
   const [user, setUser] = useState({
@@ -31,6 +29,7 @@ const Signup = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setMessage('');
     if (
       !e.currentTarget.firstname.value ||
       !e.currentTarget.lastname.value ||
@@ -72,7 +71,7 @@ const Signup = ({
       !user.lastname ||
       !user.username ||
       !user.email ||
-      user.password
+      !user.password
     )
       return;
     const request = async () => {
@@ -91,22 +90,24 @@ const Signup = ({
           }),
         });
 
-        if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
-
         const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
+        if (response.status !== 201) {
+          setNotif(data.message || response.statusText);
+          if (data.redir) nav(data.redir);
+          setUser({
+            firstname: '',
+            lastname: '',
+            username: '',
+            email: '',
+            password: '',
+          })
           return;
         }
-
         setNotif(data.message);
+        nav(appRedir.signin);
+        return;
       } catch (error) {
-        setNotif((error as Error).message);
+        setNotif(`Une erreur est survenue: ${(error as Error).message}`);
         nav(appRedir.errorInternal);
       }
     };
@@ -115,12 +116,11 @@ const Signup = ({
 
   return (
     <>
-      <div className='signup_container'>
+      <div className='container'>
         <h1 className='title'>Inscription</h1>
         <div className='message'>{message}</div>
 
-        <div className='signup_form'>
-          <form className='signin_form' onSubmit={handleSubmit}>
+          <form className='signup_form' onSubmit={handleSubmit}>
             <div className='input_text'>
               <input
                 type='text'
@@ -153,7 +153,7 @@ const Signup = ({
                 type='email'
                 name='email'
                 id='email'
-                placeholder="votre.email@domaine.fr"
+                placeholder='votre.email@domaine.fr'
               />
             </div>
 
@@ -185,11 +185,10 @@ const Signup = ({
               />
             </div>
           </form>
-        </div>
-        <div className='signup_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signin}>Déjà un compte ? Se connecter</Link>
         </div>
-        <div className='signup_link'>
+        <div className='auth_link'>
           <Link to={appRedir.resendEmail}>
             Recevoir un nouveau lien de confirmation d'email
           </Link>

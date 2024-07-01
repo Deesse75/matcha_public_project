@@ -2,29 +2,23 @@ import { useContext, useRef, useState, useEffect } from "react";
 import { LuSave } from "react-icons/lu";
 import Cookies from "js-cookie";
 import { appRoute } from "../../../components/app.configuration/path.config";
-import usernameValidation from "../../../components/app.utilities/components/inputValidation";
 import { UserContext } from "../../../components/app.utilities/context/user.context";
+import usernameValidation from "../../../components/app.utilities/components/inputValidation";
 
-const UsernameUp = ({
-  setMessage,
-}: {
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const UsernameUp = () => {
   const me = useContext(UserContext);
   const refUsername = useRef<HTMLInputElement>(null);
+  const [message, setMessage] = useState('');
   const [username, setUsername] = useState('');
 
   const handleClick = () => {
     setMessage('');
-    if (!refUsername.current?.value) {
-      setMessage('Le champ est vide');
+    if (!refUsername.current?.value) return;
+    if (usernameValidation(refUsername.current?.value)) {
+      setMessage("Le prénom n'est pas valide");
       return;
     }
-    if (usernameValidation(refUsername.current.value)) {
-      setMessage("Le nom d'utilisateur n'est pas valide");
-      return;
-    }
-    setUsername(refUsername.current.value);
+    setUsername(refUsername.current?.value);
   };
 
   useEffect(() => {
@@ -37,25 +31,20 @@ const UsernameUp = ({
             'Content-Type': 'application/json',
             Authorization: `Bearer ${Cookies.get('session')}`,
           },
-          credentials: 'include',
           body: JSON.stringify({ username: username }),
         });
-        if (!response.ok) {
-          setMessage(response.statusText);
-          return;
-        }
         const data = await response.json();
-        if (!data) {
-          setMessage('Une erreur est survenue');
+        if (response.status !== 200) {
+          setUsername('');
+          setMessage('Une erreur interne est survenue');
           return;
         }
-        me.userDispatch({
-          type: 'SET_USER_ON',
-          payload: data.user,
-        });
+        me.setUser(data);
+        setUsername('');
         refUsername.current?.value && (refUsername.current.value = '');
       } catch (error) {
-        setMessage('Une erreur est survenue');
+        setUsername('');
+        setMessage('Une erreur interne est survenue');
       }
     };
     request();
@@ -63,7 +52,7 @@ const UsernameUp = ({
 
   return (
     <>
-      <div className='section'>
+      <div className='section_up'>
         <div className='name'>Pseudo</div>
         <div className='current_value'>{me.user.username}</div>
         <input
@@ -71,7 +60,7 @@ const UsernameUp = ({
           type='text'
           name='username'
           id='username'
-          placeholder="Nouveau pseudo"
+          placeholder='Nouveau pseudo'
           ref={refUsername}
         />
         <div className='save' onClick={handleClick}>

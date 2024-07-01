@@ -1,18 +1,16 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import IsLoading from '../../components/app.utilities/components/IsLoading';
 import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const ValidateEmail = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const ValidateEmail = () => {
   const url = window.location.href;
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
 
   useEffect(() => {
     if (!url) return;
@@ -23,18 +21,7 @@ const ValidateEmail = ({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ url: url }),
         });
-        if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
-
         const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
         setNotif(data.message);
         nav(appRedir.signin);
       } catch (error) {

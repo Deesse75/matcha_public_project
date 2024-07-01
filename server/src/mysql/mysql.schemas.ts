@@ -7,7 +7,7 @@ export const userSchema = ` (
     emailCode INT DEFAULT 0,
     emailCertified BOOLEAN DEFAULT FALSE,
     hashedPassword VARCHAR(255) NOT NULL,
-    passwordCode INT DEFAULT 0,
+    passwordCode VARCHAR(6),
     birthdate DATE,
     gender VARCHAR(200),
     orientation VARCHAR(200),

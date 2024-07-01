@@ -1,0 +1,59 @@
+.home_page {
+  width: 100%;
+  max-width: 1800px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0;
+}
+
+.statistic_container {
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  @import '../pages/home/display/styles/smallStats';
+}
+
+.home_body_container {
+  width: 96%;
+  display: flex;
+  margin: 5px auto;
+  box-sizing: border-box;
+  justify-content: space-between;
+  background-color: transparent;
+
+  .display_body {
+    width: 1200px;
+    height: 680px;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 20px auto 0 auto;
+    box-shadow: 1px 1px 5px 1px $color_pal1_blue1;
+    background-color: $color_pal1_pink3;
+
+    .display_body_container {
+      width: 96%;
+      top: 0;
+      left: 0;
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+
+    }
+    @import '../pages/home/account/styles/account';
+    @import '../pages/home/profile/styles/profile';
+    // @import '../pages/home/chat/';
+    // @import '../pages/home/search';
+  }
+  @import '../pages/home/lists/styles/dropMenu';
+
+}

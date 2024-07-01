@@ -1,20 +1,26 @@
 import { IoClose } from 'react-icons/io5';
 import InputCode from '../../../components/app.utilities/components/InputCode';
-import { useEffect, useRef, useState } from 'react';
-import { appRoute } from '../../../components/app.configuration/path.config';
+import { useContext, useEffect, useRef, useState } from 'react';
+import {
+  appRedir,
+  appRoute,
+} from '../../../components/app.configuration/path.config';
+import { useNavigate } from 'react-router-dom';
+import { OpenPageContext } from '../../../components/app.utilities/context/open.context';
 
 const ConfirmCode = ({
   email,
-  setNotif,
   setReinit,
   setCode,
 }: {
   email: string;
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
   setReinit: React.Dispatch<React.SetStateAction<boolean>>;
   setCode: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [newCode, setNewCode] = useState('');
+  const setNotif = useContext(OpenPageContext).setNotif;
+  const nav = useNavigate();
+
   const refInput = {
     ref1: useRef<HTMLInputElement>(null),
     ref2: useRef<HTMLInputElement>(null),
@@ -62,25 +68,17 @@ const ConfirmCode = ({
             email: email,
           }),
         });
-
-        if (!response.ok) {
-          setNotif(response.statusText);
-          setCode(false);
-          return;
-        }
-
         const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
-          setCode(false);
+        if (response.status !== 200) {
+          setNotif(data.message || response.statusText);
+          if (data.redir) nav(data.redir);
           return;
         }
-
         setReinit(true);
         setCode(false);
       } catch (error) {
         setNotif((error as Error).message);
-        setCode(false);
+        nav(appRedir.errorInternal);
       }
     };
     request();
@@ -88,7 +86,7 @@ const ConfirmCode = ({
 
   return (
     <>
-      <div className='change_password_container'>
+      <div className='auth_popup'>
         <div className='close'>
           <button
             onClick={() => {
@@ -98,8 +96,8 @@ const ConfirmCode = ({
             <IoClose size={28} />
           </button>
         </div>
-        <div className='title'>Veuillez taper le code reçu par email.</div>
-        <form onSubmit={handleSubmit}>
+        <div className='title'>Entrez le code reçu</div>
+        <form className='auth_form_popup' onSubmit={handleSubmit}>
           <div className='number'>
             <InputCode
               id={1}
@@ -132,13 +130,9 @@ const ConfirmCode = ({
               nextRef={refInput.ref7}
             />
           </div>
-          <input
-            className='input_submit'
-            type='submit'
-            name='submit'
-            id='submit'
-            value='Vérifier'
-          />
+          <div className='input_submit'>
+            <input type='submit' name='submit' id='submit' value='Envoyer' />
+          </div>
         </form>
       </div>
     </>

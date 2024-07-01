@@ -1,56 +1,39 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '../../../components/app.utilities/context/user.context';
 import { useNavigate } from 'react-router-dom';
 import { appRedir } from '../../../components/app.configuration/path.config';
-import AccountUp from './AccountUp';
-import NewEmail from './NewEmail';
+import { OpenPageContext } from '../../../components/app.utilities/context/open.context';
 
 const Account = () => {
   const me = useContext(UserContext);
-  const [openUp, setOpenUp] = useState(false);
-  const [openCode, setOpenCode] = useState(false);
-  const [message, setMessage] = useState('');
   const nav = useNavigate();
+  const setter = useContext(OpenPageContext);
 
   return (
     <>
-      <div className='account_container'>
-        {openUp && (
-          <>
-            <AccountUp
-            message={message}
-              setMessage={setMessage}
-              setOpenUp={setOpenUp}
-              setOpenCode={setOpenCode}
-            />
-          </>
-        )}
-        {openCode && (
-          <>
-            <NewEmail setMessage={setMessage} setOpenCode={setOpenCode} />
-          </>
-        )}
-        <h1>Données personnelles</h1>
+      <h1 className='display_title'>Données personnelles</h1>
+      <div className='account'>
         <div className='section'>
-          <div className='section_name'>Prénom</div>
+          <div className='section_name'>Prénom :</div>
           <div className='section_value'>{me.user.firstname}</div>
         </div>
         <div className='section'>
-          <div className='section_name'>Nom</div>
+          <div className='section_name'>Nom :</div>
           <div className='section_value'>{me.user.lastname}</div>
         </div>
         <div className='section'>
-          <div className='section_name'>Pseudo</div>
+          <div className='section_name'>Pseudo :</div>
           <div className='section_value'>{me.user.username}</div>
         </div>
         <div className='section'>
-          <div className='section_name'>Email</div>
+          <div className='section_name'>Email :</div>
           <div className='section_value'>{me.user.email}</div>
         </div>
         <div className='section_button'>
           <button
             onClick={() => {
-              setOpenUp(true);
+              setter.setOpenAccountUp(true);
+              setter.setOpenAccount(false);
             }}
           >
             Mettre à jour vos données

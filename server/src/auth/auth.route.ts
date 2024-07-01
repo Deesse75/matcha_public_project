@@ -1,11 +1,21 @@
-import { Router } from "express";
-import { validateAuthBody } from "../middleware/auth.body.validation.js";
+import { Router } from 'express';
+import { validateAuthBody } from '../middleware/auth.body.validation.js';
+import {
+  forgotPassword,
+  reactivate,
+  reinitPassword,
+  resendEmail,
+  signin,
+  signup,
+  validateEmail,
+  validatePassCode,
+} from './auth.controller.js';
+import { tokenBodyValidation } from '../middleware/token.validation.js';
 
-export const authRouter = Router();
+const authRouter = Router();
 
-authRouter.post('/signin', validateAuthBody, signin);
 authRouter.post('/signup', validateAuthBody, signup);
-authRouter.post('/validate_passcode', validateAuthBody, signup);
+authRouter.post('/signin', validateAuthBody, signin);
 authRouter.post(
   '/validate_email',
   validateAuthBody,
@@ -13,11 +23,14 @@ authRouter.post(
   validateEmail,
 );
 authRouter.post('/resend_email', validateAuthBody, resendEmail);
-authRouter.post('/forgot_password', validateAuthBody, forgot);
+authRouter.post('/forgot_password', validateAuthBody, forgotPassword);
+authRouter.post('/validate_passcode', validateAuthBody, validatePassCode);
 authRouter.post(
   '/reinit_password',
   validateAuthBody,
   tokenBodyValidation,
-  reset,
+  reinitPassword,
 );
-authRouter.post('/newpass', validateAuthBody, newpass);
+authRouter.post('/reactivate', validateAuthBody, reactivate);
+
+export default authRouter;

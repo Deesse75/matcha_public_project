@@ -3,22 +3,21 @@ import {
   appRedir,
   appRoute,
 } from '../../components/app.configuration/path.config';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import ConfirmCode from './components/ConfirmCode';
 import ReinitPassword from './components/ReinitPassword';
 import { emailValidation } from '../../components/app.utilities/components/inputValidation';
+import { OpenPageContext } from '../../components/app.utilities/context/open.context';
 
-const ForgotPassword = ({
-  setNotif,
-}: {
-  setNotif: React.Dispatch<React.SetStateAction<string>>;
-}) => {
+const ForgotPassword = () => {
   const nav = useNavigate();
+  const setNotif = useContext(OpenPageContext).setNotif;
   const [code, setCode] = useState(false);
-  const [reinit, setReinit] = useState(true);
+  const [reinit, setReinit] = useState(false);
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [reset, setReset] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -52,16 +51,10 @@ const ForgotPassword = ({
             email: email,
           }),
         });
-        if (!response.ok) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
-          return;
-        }
-
         const data = await response.json();
-        if (!data) {
-          setNotif(response.statusText);
-          nav(appRedir.errorInternal);
+        if (response.status !== 200) {
+          setNotif(data.message || response.statusText);
+          if (data.redir) nav(data.redir);
           return;
         }
         setCode(true);
@@ -73,13 +66,25 @@ const ForgotPassword = ({
     request();
   }, [email]);
 
+  useEffect(() => {
+    if (reinit) {
+      setReset(true);
+      return;
+    }
+    if (!reinit && reset) {
+      setEmail('');
+      setReset(false);
+      return;
+    }
+  }, [reinit]);
+
   return (
     <>
-      <div className='forgot_container'>
+      <div className='container'>
         <h1 className='title'>Mot de passe oublié</h1>
         <div className='message'>{message}</div>
 
-        <form className='forgot_form' onSubmit={handleSubmit}>
+        <form className='auth_form_mini' onSubmit={handleSubmit}>
           <div className='input_text'>
             <input
               type='email'
@@ -99,17 +104,16 @@ const ForgotPassword = ({
           </div>
         </form>
 
-        <div className='forgot_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signin}>Se connecter</Link>
         </div>
-        <div className='forgot_link'>
+        <div className='auth_link'>
           <Link to={appRedir.signup}>S'inscrire</Link>
         </div>
 
         {code && (
           <ConfirmCode
             email={email}
-            setNotif={setNotif}
             setReinit={setReinit}
             setCode={setCode}
           />
@@ -117,7 +121,6 @@ const ForgotPassword = ({
         {reinit && (
           <ReinitPassword
             email={email}
-            setNotif={setNotif}
             setReinit={setReinit}
           />
         )}
